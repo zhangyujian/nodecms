@@ -44,6 +44,9 @@ app.get('/admin/product-cat-list', adminRoutes.productCatList);
 app.get('/admin/product-cat-add', adminRoutes.productCatAdd);
 app.post('/admin/product-cat-add', adminRoutes.productCatAdd);
 app.get('/admin/product-cat-destroy/:id', adminRoutes.productCatDestroy);
+//留言 Routes
+app.get('/admin/message-list',adminRoutes.message);
+app.get('/admin/message-destroy/:id',adminRoutes.messageDestroy);
 //config 渲染到模板
 app.locals({
   config:config

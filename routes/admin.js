@@ -188,3 +188,23 @@ exports.productCatDestroy = function ( req, res, next ){
     });
   });
 };
+
+// message
+exports.messageList = function (req, res) {
+  Message.find()
+    .exec(function (err, Messages) {
+        res.render('admin/message-list', {
+            title: '留言',
+            Messages: Messages
+        });
+    });
+};
+
+exports.messageDestroy = function ( req, res, next ){
+  Message.findById( req.params.id, function ( err, Message ){
+    Message.remove( function ( err, Message ){
+      if( err ) return next( err );
+      res.redirect( '/admin/message-list' );
+    });
+  });
+};
