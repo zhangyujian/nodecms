@@ -57,7 +57,7 @@ exports.productAdd = function (req, res) {
             });
           });
     } else if (req.method === 'POST') {
-         var img = req.files.thumbnail.name.split('.'),
+        var img = req.files.thumbnail.name.split('.'),
               img_name = md5(img[0]),
               img_ext  = img[1];
         var tmp_path = req.files.thumbnail.path,
@@ -107,13 +107,33 @@ exports.productEdit = function( req, res, next ){
 
 exports.productUpdate = function( req, res, next ){
   Product.findById( req.params.id, function ( err, Product){
-    Product.title    = req.body.title;
-    Product.content    = req.body.content;
-    Product.cat_id    = req.body.cat_id;
-    Product.price    = req.body.price;
+    var img = req.files.thumbnail.name.split('.'),
+        img_name = md5(img[0]),
+        img_ext  = img[1];
+    var tmp_path = req.files.thumbnail.path,
+        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+
+    Product.title = req.body.title;
+    Product.content = req.body.content;
+    if(Product.cat_id != req.body.cat_id){
+      Product.cat_id = req.body.cat_id;
+    }
+    Product.price = req.body.price;
+    Product.img = req.files.thumbnail.name?img_name+ '.' +img_ext:Product.img;
     Product.save( function ( err, Product ){
       if( err ) return next( err );
-      res.redirect( '/admin/product-list' );
+      if (req.files.thumbnail.name) {
+        fs.rename(tmp_path, target_path, function(err) {
+          if(err) throw err;
+          fs.unlink(tmp_path, function(){
+            if(err) throw err;
+            //res.send(img_name+ '.' +img_ext);
+            res.redirect('/admin/product-list');
+          });
+        });
+      }else{
+        res.redirect('/admin/product-list');
+      }
     });
   });
 };

@@ -1,4 +1,4 @@
-nodecms
+NodeCMS
 =======
 
-nodecms : try to be a cms for companys
+NodeCMS : try to be a CMS for company

@@ -5,11 +5,10 @@ block content
         .page-title
             .opts
                 h3=title
-        form.form-horizontal(action="/admin/product-update/#{Product._id}",method="post",accept-charset="utf-8")
+        form.form-horizontal(action="/admin/product-update/#{Product._id}",enctype="multipart/form-data",method="post",accept-charset="utf-8")
             .control-group
                 label.control-label 产品分类
                 .controls
-                    |#{Product.cat_id}
                     select(name="cat_id")
                         each item in ProductCats
                             option(value="#{item._id}") #{item.name}

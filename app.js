@@ -38,6 +38,7 @@ app.get('/admin/product-add', adminRoutes.productAdd);
 app.post('/admin/product-add', adminRoutes.productAdd);
 app.get('/admin/product-destroy/:id', adminRoutes.productDestroy);
 app.get( '/admin/product-edit/:id', adminRoutes.productEdit);
+app.post( '/admin/product-update/:id', adminRoutes.productUpdate);
 //产品分类 Routes
 app.get('/admin/product-cat-list', adminRoutes.productCatList);
 app.get('/admin/product-cat-add', adminRoutes.productCatAdd);
