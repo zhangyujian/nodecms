@@ -1,0 +1,37 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts.pull-right
+                a(href="/admin/product-add")
+                    i.icon-plus
+                    | 添加产品
+            h3 产品列表
+        table.table.table-bordered.table-striped
+            tr
+                th(width="230") id
+                th 分类
+                th 价格
+                th 图片
+                th 名称
+                th(width="230") 内容
+                th 时间
+                th 操作
+            each item in Products
+                tr
+                    td #{item._id}
+                    td #{item.cat_id}
+                    td #{item.price}
+                    td
+                        a(href="#",target="_blacnk")
+                            img(src="/data/img/#{item.img}",style="width: 30px; height: 30px;")
+                    td
+                        a(href="#",target="_blacnk",title="#{item.title}") #{item.title}
+                    td #{item.content}
+                    td.time #{item.date}
+                    td.operate
+                        a.btn.btn-mini(href="/admin/product-edit/#{item._id}")
+                            i.icon-edit
+                        a.btn.btn-danger.btn-mini(href="/admin/product-destroy/#{item._id}")
+                            i.icon-remove.icon-white

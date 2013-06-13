@@ -1,0 +1,40 @@
+doctype 5
+html
+    head
+        meta(charset="utf-8")
+        title= title
+        link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
+        link(rel='stylesheet', href='/css/admin.css')
+        script(src="/js/jquery.js", type="text/javascript")
+        script(src="/js/bootstrap.min.js", type="text/javascript")
+        script(src="/js/format_date.js", type="text/javascript")
+        script(type="text/javascript")
+            $('.myModal').modal(options)
+    body
+        .navbar.navbar-inverse.navbar-fixed-top
+            .navbar-inner
+                .container-fluid
+                    a.brand(href="/admin") 后台管理中心
+                    .nav-collapse.collapse
+                        ul.nav
+                            li.active
+                                a(href="/admin") 管理中心
+                            li
+                                a(href="/",target="_blank") 前台首页
+        .container-fluid.vi-layout
+            .row-fluid
+                .span2
+                    ul.nav.nav-list.bs-docs-sidenav
+                        li.nav-header 用户面板
+                        li.active
+                            a(href="/admin/productList") 产品管理
+                        li
+                            a(href="/admin/articleList") 文章管理
+                        li
+                            a(href="/admin/about") 关于我们
+                        li
+                            a(href="/admin/contact") 联系我们
+                        li
+                            a(href="/admin/message") 留言
+                block content
