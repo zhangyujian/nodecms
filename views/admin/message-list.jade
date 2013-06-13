@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            h3 留言列表
+        table.table.table-bordered.table-striped
+            tr
+                th(width="230") id
+                th 姓名
+                th Email
+                th 内容
+                th 时间
+                th 操作
+            each item in Messages
+                tr
+                    td #{item._id}
+                    td #{item.name}
+                    td #{item.email}
+                    td #{item.content}
+                    td.time #{item.date}
+                    td.operate
+                        a.btn.btn-danger.btn-mini(href="/admin/message-destroy/#{item._id}")
+                            i.icon-remove.icon-white
