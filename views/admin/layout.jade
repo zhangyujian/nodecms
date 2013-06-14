@@ -10,6 +10,7 @@ html
         link(rel='stylesheet', href='/css/admin.css')
         script(src="/js/jquery.js", type="text/javascript")
         script(src="/js/bootstrap.min.js", type="text/javascript")
+        script(src="/js/common.js", type="text/javascript")
     body
         .navbar.navbar-inverse.navbar-fixed-top
             .navbar-inner
@@ -41,11 +42,19 @@ html
                     ul.nav.nav-list.bs-docs-sidenav
                         li.nav-header 用户面板
                         li
-                            a(href="/admin/product-list") 产品管理
+                            a(href="#") 产品管理
+                            ul.sub-nav
+                                li
+                                    a(href="/admin/product-cat-list") 产品分类
+                                li
+                                    a(href="/admin/product-list") 产品列表
                         li
-                            a(href="/admin/product-cat-list") 产品分类
-                        li
-                            a(href="/admin/article-list") 文章管理
+                            a(href="#") 文章管理
+                            ul.sub-nav
+                                li
+                                    a(href="/admin/article-cat-list") 文章分类
+                                li
+                                    a(href="/admin/article-list") 文章列表
                         li
                             a(href="/admin/about") 关于我们
                         li

@@ -1,0 +1,13 @@
+.pagination.pagination-right
+    ul
+        -if( isNaN(req.query.p) || req.query.p<=0 )
+            li
+                a.next(href="/admin/product-list?p=1") »
+        -else if( (count%3==0)?(req.query.p == parseInt(count/3) - 1):(req.query.p == parseInt(count/3)) )
+            li
+                a.pre(href="/admin/product-list?p=#{req.query.p-1}") «
+        -else
+            li
+                a.pre(href="/admin/product-list?p=#{req.query.p-1}") «
+            li
+                a.next(href="/admin/product-list?p=#{+req.query.p+1}") »

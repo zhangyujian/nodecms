@@ -17,7 +17,7 @@ block content
                 th 名称
                 th(width="230") 内容
                 th 时间
-                th 操作
+                th(width="68") 操作
             each item in Products
                 tr
                     td #{item._id}
@@ -29,9 +29,10 @@ block content
                     td
                         a(href="#",target="_blacnk",title="#{item.title}") #{item.title}
                     td #{item.content}
-                    td.time #{item.date}
+                    td #{item.friendly_date}
                     td.operate
                         a.btn.btn-mini(href="/admin/product-edit/#{item._id}")
                             i.icon-edit
                         a.btn.btn-danger.btn-mini(href="/admin/product-destroy/#{item._id}")
                             i.icon-remove.icon-white
+        include pagination

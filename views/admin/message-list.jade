@@ -18,7 +18,7 @@ block content
                     td #{item.name}
                     td #{item.email}
                     td #{item.content}
-                    td.time #{item.date}
+                    td #{item.friendly_date}
                     td.operate
                         a.btn.btn-danger.btn-mini(href="/admin/message-destroy/#{item._id}")
                             i.icon-remove.icon-white

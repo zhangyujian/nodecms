@@ -26,25 +26,33 @@ function md5(str) {
 
 // product
 exports.productList = function(req, res){
-  Product.find()
-    .exec(function(err, Products){
-      ProductCat.find()
-        .exec(function(err, ProductCats){
-          for(var i = 0; i < Products.length; i++){
-            //console.log(Util.format_date(Products[i].date, true));
-            Products[i].date = Util.format_date(Products[i].date, true);
-            for(var y = 0; y < ProductCats.length; y++){
-              if(Products[i].cat_id.toString() === ProductCats[y]._id.toString()){
-                Products[i].cat_id = ProductCats[y].name;
+  Product.count()
+    .exec(function(err, count){
+      Product.find()
+        .skip(3*parseInt(req.query.p?req.query.p:0))
+        .limit(3)
+        .exec(function(err, Products){
+          ProductCat.find()
+            .exec(function(err, ProductCats){
+              for(var i = 0; i < Products.length; i++){
+                Products[i].friendly_date = Util.format_date(Products[i].date, true);
+                //console.log(Util.format_date(Products[i].date, true));
+                for(var y = 0; y < ProductCats.length; y++){
+                  if(Products[i].cat_id.toString() === ProductCats[y]._id.toString()){
+                    Products[i].cat_id = ProductCats[y].name;
+                  }
+                }
               }
-            }
-          }
-          res.render('admin/product-list', {
-              title: '产品列表',
-              Products: Products
+              res.render('admin/product-list', {
+                  title: '产品列表',
+                  Products: Products,
+                  req: req,
+                  count: count
+                });
             });
         });
     });
+
 };
 
 exports.productAdd = function (req, res) {

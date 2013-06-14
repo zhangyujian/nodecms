@@ -69,3 +69,20 @@
 	background-image: -o-linear-gradient(#F9F9F9, #EDEDED);
 	background-image: linear-gradient(#F9F9F9, #EDEDED);
 }
+
+.nav-list i{
+	margin-top: 12px;
+	padding-right: 3px;
+}
+
+.sub-nav{
+	margin: 0;
+	padding: 8px 0;
+	border-left: solid 1px #ddd;
+	border-right: solid 1px #DDD;
+	list-style-type: none;
+}
+.sub-nav li{
+	padding-left: 30px;
+	line-height: 24px;
+}
