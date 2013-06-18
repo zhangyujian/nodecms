@@ -11,7 +11,8 @@ var mongoose = require('mongoose'),
     ProductCat = mongoose.model('ProductCat'),
     Article = mongoose.model('Article'),
     ArticleCat = mongoose.model('ArticleCat'),
-    Message = mongoose.model('Message');
+    Message = mongoose.model('Message'),
+    markdown = require('markdown').markdown;
 
 exports.index = function(req, res){
   res.render('admin/index', { title: '首页' })
@@ -262,9 +263,11 @@ exports.articleAdd = function (req, res) {
         var tmp_path = req.files.thumbnail.path,
         target_path = './public/data/article/' + img_name+ '.' +img_ext;
         if (req.body.title) {
+          //解析 markdown 为 html
+          var contents = markdown.toHTML(req.body.content);
           new Article({
               title   : req.body.title,
-              content : req.body.content,
+              content : contents,
               cat_id  : req.body.cat_id,
               img     : req.files.thumbnail.name?img_name+ '.' +img_ext:"default.jpg",
               date    : Date.now()

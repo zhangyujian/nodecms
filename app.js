@@ -6,6 +6,7 @@
 var express = require('express')
   ,adminRoutes = require('./routes/admin')
   ,path = require('path')
+  ,flash = require('connect-flash')
   ,config = require('./config').config;
 
 var app = express();
@@ -19,6 +20,7 @@ app.configure(function(){
   app.use(express.bodyParser({uploadDir: __dirname+'/public/data/temp'}));//设置上传缓存路径
   app.use(express.methodOverride());
   app.use(app.router);
+  app.use(flash());
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
