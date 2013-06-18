@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts
+                h3=title
+        form.form-horizontal(action="/admin/article-cat-update/#{ArticleCat._id}",method="post",accept-charset="utf-8")
+            .control-group
+                label.control-label 分类名称
+                .controls
+                    input(type="text",placeholder="产品标题",name="name",value="#{ArticleCat.name}")
+            .control-group
+                .controls
+                    button.btn(type="submit") 确定

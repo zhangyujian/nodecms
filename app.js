@@ -44,6 +44,21 @@ app.get('/admin/product-cat-list', adminRoutes.productCatList);
 app.get('/admin/product-cat-add', adminRoutes.productCatAdd);
 app.post('/admin/product-cat-add', adminRoutes.productCatAdd);
 app.get('/admin/product-cat-destroy/:id', adminRoutes.productCatDestroy);
+app.get( '/admin/product-cat-edit/:id', adminRoutes.productCatEdit);
+app.post( '/admin/product-cat-update/:id', adminRoutes.productCatUpdate);
+
+//文章 Routes
+app.get('/admin/article-list', adminRoutes.articleList);
+app.get('/admin/article-add', adminRoutes.articleAdd);
+app.post('/admin/article-add', adminRoutes.articleAdd);
+//文章分类 Routes
+app.get('/admin/article-cat-list', adminRoutes.articleCatList);
+app.get('/admin/article-cat-add', adminRoutes.articleCatAdd);
+app.post('/admin/article-cat-add', adminRoutes.articleCatAdd);
+app.get('/admin/article-cat-destroy/:id', adminRoutes.articleCatDestroy);
+app.get( '/admin/article-cat-edit/:id', adminRoutes.articleCatEdit);
+app.post( '/admin/article-cat-update/:id', adminRoutes.articleCatUpdate);
+
 //留言 Routes
 app.get('/admin/message-list',adminRoutes.messageList);
 app.get('/admin/message-destroy/:id',adminRoutes.messageDestroy);

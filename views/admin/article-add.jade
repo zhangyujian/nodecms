@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts
+                h3=title
+        form.form-horizontal(action="/admin/article-add",method="post",enctype="multipart/form-data",accept-charset="utf-8")
+            .control-group
+                label.control-label 文章分类
+                .controls
+                    select(name="cat_id")
+                        each item in ArticleCats
+                            option(value="#{item._id}") #{item.name}
+            .control-group
+                label.control-label 文章标题
+                .controls
+                    input(type="text",placeholder="文章标题",name="title")
+            .control-group
+                label.control-label 文章简介
+                .controls
+                    input(type="text",placeholder="文章简介",name="content")
+            .control-group
+                label.control-label 文章图片
+                .controls
+                    input(type="file",placeholder="文章图片",name="thumbnail")
+            .control-group
+                label.control-label 文章tag
+                .controls
+                    input(type="text",placeholder="文章tag",name="tag")
+            .control-group
+                .controls
+                    button.btn(type="submit") 确定

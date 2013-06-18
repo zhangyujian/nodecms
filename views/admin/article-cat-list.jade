@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts.pull-right
+                a(href="/admin/article-cat-add")
+                    i.icon-plus
+                    | 添加分类
+            h3 文章分类
+        table.table.table-bordered.table-striped
+            tr
+                th(width="230") id
+                th 名称
+                th(width="68") 操作
+            each item in ArticleCats
+                tr
+                    td #{item._id}
+                    td #{item.name}
+                    td.operate
+                        a.btn.btn-mini(href="/admin/article-cat-edit/#{item._id}")
+                            i.icon-edit
+                        a.btn.btn-danger.btn-mini(href="/admin/article-cat-destroy/#{item._id}")
+                            i.icon-remove.icon-white

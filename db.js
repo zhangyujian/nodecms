@@ -6,6 +6,8 @@ var ObjectId = Schema.ObjectId;
 mongoose.connect(config.db);
 
 var ArticleSchema = new Schema({  
+    id       :    { type : Number,default:0 },
+    cat_id   :    { type : String },
     title    :    { type : String },
     author   :    { type : String },
     content  :    { type : String },
@@ -15,8 +17,10 @@ var ArticleSchema = new Schema({
     publish  :    { type: Boolean, default: false },
     date     :    { type: Date, default: Date.now },
     comments :    [{ email: String, name: String, content: String, date: Date }], 
-    rate     :    { type:Number, default:0 },
-    classify :    { type : String }
+});
+
+var ArticleCatSchema = new Schema({
+    name    :    { type : String }
 });
 
 var ProductSchema = new Schema({
@@ -41,6 +45,7 @@ var MessageSchema = new Schema({
 });
 
 mongoose.model('Article', ArticleSchema);
+mongoose.model('ArticleCat', ArticleCatSchema);
 mongoose.model('Product', ProductSchema);
 mongoose.model('ProductCat', ProductCatSchema);
 mongoose.model('Message', MessageSchema);

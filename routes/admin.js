@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
     Product = mongoose.model('Product'),
     ProductCat = mongoose.model('ProductCat'),
     Article = mongoose.model('Article'),
+    ArticleCat = mongoose.model('ArticleCat'),
     Message = mongoose.model('Message');
 
 exports.index = function(req, res){
@@ -29,8 +30,9 @@ exports.productList = function(req, res){
   Product.count()
     .exec(function(err, count){
       Product.find()
-        .skip(3*parseInt(req.query.p?req.query.p:0))
-        .limit(3)
+        .skip(8*parseInt(req.query.p?req.query.p:0))
+        .limit(8)
+        .sort({ date: 'desc' })
         .exec(function(err, Products){
           ProductCat.find()
             .exec(function(err, ProductCats){
@@ -52,7 +54,6 @@ exports.productList = function(req, res){
             });
         });
     });
-
 };
 
 exports.productAdd = function (req, res) {
@@ -69,7 +70,7 @@ exports.productAdd = function (req, res) {
               img_name = md5(img[0]),
               img_ext  = img[1];
         var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+        target_path = './public/data/product/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
         if (req.body.title) {
           new Product({
               title   : req.body.title,
@@ -110,7 +111,6 @@ exports.productEdit = function( req, res, next ){
         });
       });
     });
-  
 };
 
 exports.productUpdate = function( req, res, next ){
@@ -119,7 +119,7 @@ exports.productUpdate = function( req, res, next ){
         img_name = md5(img[0]),
         img_ext  = img[1];
     var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+        target_path = './public/data/product/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
 
     Product.title = req.body.title;
     Product.content = req.body.content;
@@ -193,6 +193,158 @@ exports.productCatDestroy = function ( req, res, next ){
     ProductCat.remove( function ( err, ProductCat ){
       if( err ) return next( err );
       res.redirect( '/admin/product-cat-list' );
+    });
+  });
+};
+
+exports.productCatEdit = function( req, res, next ){
+  ProductCat.findById( req.params.id, function ( err, ProductCat ){
+    if( err ) return next( err );
+    res.render( 'admin/product-cat-edit', {
+      title   : '编辑产品分类',
+      ProductCat : ProductCat
+    });
+  });
+};
+
+exports.productCatUpdate = function ( req, res ){
+  ProductCat.findById( req.params.id, function ( err, ProductCat ){
+    ProductCat.name = req.body.name;
+    ProductCat.save( function ( err, ProductCat ){
+      if( err ) return next( err );
+      res.redirect( 'admin/product-cat-list' );
+    });
+  });
+};
+
+//Article
+exports.articleList = function(req, res){
+  Article.count()
+    .exec(function(err, count){
+      Article.find()
+        .skip(8*parseInt(req.query.p?req.query.p:0))
+        .limit(8)
+        .exec(function(err, Articles){
+          ArticleCat.find()
+            .exec(function(err, ArticleCats){
+              for(var i = 0; i < Articles.length; i++){
+                Articles[i].friendly_date = Util.format_date(Articles[i].date, true);
+                for(var y = 0; y < ArticleCats.length; y++){
+                  if(Articles[i].cat_id.toString() === ArticleCats[y]._id.toString()){
+                    Articles[i].cat_id = ArticleCats[y].name;
+                  }
+                }
+              }
+              res.render('admin/article-list', {
+                  title: '产品列表',
+                  Articles: Articles,
+                  req: req,
+                  count: count
+                });
+            });
+        });
+    });
+};
+
+exports.articleAdd = function (req, res) {
+    if (req.method === 'GET') {
+        ArticleCat.find()
+          .exec(function(err, ArticleCats){
+            res.render('admin/article-add', {
+                title: '添加新文章',
+                ArticleCats: ArticleCats
+            });
+          });
+    } else if (req.method === 'POST') {
+        var img = req.files.thumbnail.name.split('.'),
+              img_name = md5(img[0]),
+              img_ext  = img[1];
+        var tmp_path = req.files.thumbnail.path,
+        target_path = './public/data/article/' + img_name+ '.' +img_ext;
+        if (req.body.title) {
+          new Article({
+              title   : req.body.title,
+              content : req.body.content,
+              cat_id  : req.body.cat_id,
+              img     : req.files.thumbnail.name?img_name+ '.' +img_ext:"default.jpg",
+              date    : Date.now()
+          }).save(function (err) {
+                  if (req.files.thumbnail.name) {
+                    fs.rename(tmp_path, target_path, function(err) {
+                      if(err) throw err;
+                      fs.unlink(tmp_path, function(){
+                        if(err) throw err;
+                        res.redirect('/admin/article-list');
+                      });
+                    });
+                  }else{
+                    res.redirect('/admin/article-list');
+                  }
+              });
+        }else{
+          res.redirect('/admin/article-list');
+        }
+    }
+};
+
+//Article cat
+exports.articleCatList = function(req, res){
+  ArticleCat.find()
+    .exec(function(err, ArticleCats){
+      res.render('admin/article-cat-list', {
+          title: '文章分类列表',
+          ArticleCats: ArticleCats
+      });
+    });
+};
+
+exports.articleCatAdd = function (req, res) {
+    if (req.method === 'GET') {
+        ArticleCat.find()
+          .exec(function(err, ArticleCats){
+            res.render('admin/article-cat-add', {
+                title: '添加文章分类',
+                ArticleCats: ArticleCats
+            });
+          });
+    } else if (req.method === 'POST') {
+        if (req.body.name) {
+          new ArticleCat({
+              name   : req.body.name
+          }).save(function (err) {
+                res.redirect('/admin/article-cat-list');
+              });
+        }else{
+          res.redirect('/admin/article-cat-list');
+        }
+    }
+};
+
+exports.articleCatDestroy = function ( req, res, next ){
+  ArticleCat.findById( req.params.id, function ( err, ArticleCat ){
+    ArticleCat.remove( function ( err, ArticleCat ){
+      if( err ) return next( err );
+      res.redirect( '/admin/article-cat-list' );
+    });
+  });
+};
+
+exports.articleCatEdit = function( req, res, next ){
+  ArticleCat.findById( req.params.id, function ( err, ArticleCat ){
+    if( err ) return next( err );
+    res.render( 'admin/article-cat-edit', {
+      title   : '编辑产品分类',
+      ArticleCat : ArticleCat
+    });
+  });
+};
+
+exports.articleCatUpdate = function ( req, res ){
+  ArticleCat.findById( req.params.id, function ( err, ArticleCat ){
+    ArticleCat.name = req.body.name;
+    ArticleCat.save( function ( err, ArticleCat ){
+      if( err ) return next( err );
+      res.redirect( 'admin/article-cat-list' );
     });
   });
 };
