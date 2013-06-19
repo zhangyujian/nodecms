@@ -7,7 +7,7 @@ block content
                 a(href="/admin/product-add")
                     i.icon-plus
                     | 添加产品
-            h3 产品列表
+            h3=title
         table.table.table-bordered.table-striped
             tr
                 th(width="230") id
@@ -28,7 +28,7 @@ block content
                             img(src="/data/product/#{item.img}",style="width: 30px; height: 30px;")
                     td
                         a(href="#",target="_blacnk",title="#{item.title}") #{item.title}
-                    td #{item.content}
+                    td !{item.content}
                     td #{item.friendly_date}
                     td.operate
                         a.btn.btn-mini(href="/admin/product-edit/#{item._id}")

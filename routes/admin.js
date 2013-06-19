@@ -1,7 +1,3 @@
-
-/*
- * GET home page.
- */
 require('../db');
 var mongoose = require('mongoose'),
     fs = require('fs'), //引用处理文件功能
@@ -12,6 +8,7 @@ var mongoose = require('mongoose'),
     Article = mongoose.model('Article'),
     ArticleCat = mongoose.model('ArticleCat'),
     Message = mongoose.model('Message'),
+    Friendlink = mongoose.model('Friendlink'),
     markdown = require('markdown').markdown;
 
 exports.index = function(req, res){
@@ -39,7 +36,8 @@ exports.productList = function(req, res){
             .exec(function(err, ProductCats){
               for(var i = 0; i < Products.length; i++){
                 Products[i].friendly_date = Util.format_date(Products[i].date, true);
-                //console.log(Util.format_date(Products[i].date, true));
+                //解析 markdown 为 html
+                Products[i].content = markdown.toHTML(Products[i].content);
                 for(var y = 0; y < ProductCats.length; y++){
                   if(Products[i].cat_id.toString() === ProductCats[y]._id.toString()){
                     Products[i].cat_id = ProductCats[y].name;
@@ -230,6 +228,8 @@ exports.articleList = function(req, res){
             .exec(function(err, ArticleCats){
               for(var i = 0; i < Articles.length; i++){
                 Articles[i].friendly_date = Util.format_date(Articles[i].date, true);
+                //解析 markdown 为 html
+                Articles[i].content = markdown.toHTML(Articles[i].content);
                 for(var y = 0; y < ArticleCats.length; y++){
                   if(Articles[i].cat_id.toString() === ArticleCats[y]._id.toString()){
                     Articles[i].cat_id = ArticleCats[y].name;
@@ -237,7 +237,7 @@ exports.articleList = function(req, res){
                 }
               }
               res.render('admin/article-list', {
-                  title: '产品列表',
+                  title: '文章列表',
                   Articles: Articles,
                   req: req,
                   count: count
@@ -263,11 +263,9 @@ exports.articleAdd = function (req, res) {
         var tmp_path = req.files.thumbnail.path,
         target_path = './public/data/article/' + img_name+ '.' +img_ext;
         if (req.body.title) {
-          //解析 markdown 为 html
-          var contents = markdown.toHTML(req.body.content);
           new Article({
               title   : req.body.title,
-              content : contents,
+              content : req.body.content,
               cat_id  : req.body.cat_id,
               img     : req.files.thumbnail.name?img_name+ '.' +img_ext:"default.jpg",
               date    : Date.now()
@@ -290,12 +288,66 @@ exports.articleAdd = function (req, res) {
     }
 };
 
+exports.articleEdit = function( req, res, next ){
+  ArticleCat.find()
+    .exec(function(err, ArticleCats){
+      Article.findById( req.params.id, function ( err, Article ){
+        if( err ) return next( err );
+        res.render( 'admin/article-edit', {
+          title   : '编辑文章',
+          Article : Article,
+          ArticleCats : ArticleCats
+        });
+      });
+    });
+};
+
+exports.articleUpdate = function( req, res, next ){
+  Article.findById( req.params.id, function ( err, Article){
+    var img = req.files.thumbnail.name.split('.'),
+        img_name = md5(img[0]),
+        img_ext  = img[1];
+    var tmp_path = req.files.thumbnail.path,
+        target_path = './public/data/article/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+
+    Article.title = req.body.title;
+    Article.content = req.body.content;
+    if(Article.cat_id != req.body.cat_id){
+      Article.cat_id = req.body.cat_id;
+    }
+    Article.img = req.files.thumbnail.name?img_name+ '.' +img_ext:Article.img;
+    Article.save( function ( err, Article ){
+      if( err ) return next( err );
+      if (req.files.thumbnail.name) {
+        fs.rename(tmp_path, target_path, function(err) {
+          if(err) throw err;
+          fs.unlink(tmp_path, function(){
+            if(err) throw err;
+            res.redirect('/admin/article-list');
+          });
+        });
+      }else{
+        res.redirect('/admin/article-list');
+      }
+    });
+  });
+};
+
+exports.articleDestroy = function ( req, res, next ){
+  Article.findById( req.params.id, function ( err, Article ){
+    Article.remove( function ( err, Article ){
+      if( err ) return next( err );
+      res.redirect( '/admin/article-list' );
+    });
+  });
+};
+
 //Article cat
 exports.articleCatList = function(req, res){
   ArticleCat.find()
     .exec(function(err, ArticleCats){
       res.render('admin/article-cat-list', {
-          title: '文章分类列表',
+          title: '文章分类',
           ArticleCats: ArticleCats
       });
     });
@@ -357,7 +409,7 @@ exports.messageList = function (req, res) {
   Message.find()
     .exec(function (err, Messages) {
         res.render('admin/message-list', {
-            title: '留言',
+            title: '留言列表',
             Messages: Messages
         });
     });
@@ -368,6 +420,70 @@ exports.messageDestroy = function ( req, res, next ){
     Message.remove( function ( err, Message ){
       if( err ) return next( err );
       res.redirect( '/admin/message-list' );
+    });
+  });
+};
+
+// link
+exports.friendlinkList = function (req, res) {
+  Friendlink.find()
+    .exec(function (err, Friendlinks) {
+        res.render('admin/friendlink', {
+            title: '友情链接列表',
+            Friendlinks: Friendlinks
+        });
+    });
+};
+
+exports.friendlinkAdd = function (req, res) {
+    if (req.method === 'GET') {
+        Friendlink.find()
+          .exec(function(err, Friendlinks){
+            res.render('admin/friendlink-add', {
+                title: '添加产品分类',
+                Friendlinks: Friendlinks
+            });
+          });
+    } else if (req.method === 'POST') {
+        if (req.body.name) {
+          new Friendlink({
+              name   : req.body.name,
+              link   : req.body.link
+          }).save(function (err) {
+                res.redirect('/admin/friendlink');
+              });
+        }else{
+          res.redirect('/admin/friendlink');
+        }
+    }
+};
+
+exports.friendlinkEdit = function ( req, res, next ){
+  Friendlink.findById( req.params.id, function ( err, Friendlink ){
+    if( err ) return next( err );
+    res.render( 'admin/friendlink-edit', {
+      title   : '编辑友情链接',
+      Friendlink : Friendlink
+    });
+  });
+};
+
+exports.friendlinkUpdate = function ( req, res, next ){
+  Friendlink.findById( req.params.id, function ( err, Friendlink ){
+    Friendlink.name = req.body.name;
+    Friendlink.link = req.body.link;
+    Friendlink.save( function ( err, Friendlink ){
+      if( err ) return next( err );
+      res.redirect( '/admin/friendlink' );
+    });
+  });
+};
+
+exports.friendlinkDestroy = function ( req, res, next ){
+  Friendlink.findById( req.params.id, function ( err, Friendlink ){
+    Friendlink.remove( function ( err, Friendlink ){
+      if( err ) return next( err );
+      res.redirect( '/admin/friendlink' );
     });
   });
 };

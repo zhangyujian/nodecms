@@ -44,8 +44,21 @@ var MessageSchema = new Schema({
     date    :       { type : Date },
 });
 
+var FriendlinkSchema = new Schema({
+    name    :       { type : String },
+    link    :       { type : String },
+});
+
+var userSchema = new Schema({
+    name     :       { type : String },
+    password :       { type : String },
+    email    :       { type : String },
+});
+
 mongoose.model('Article', ArticleSchema);
 mongoose.model('ArticleCat', ArticleCatSchema);
 mongoose.model('Product', ProductSchema);
 mongoose.model('ProductCat', ProductCatSchema);
 mongoose.model('Message', MessageSchema);
+mongoose.model('Friendlink', FriendlinkSchema);
+mongoose.model('User', userSchema);

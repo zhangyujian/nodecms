@@ -7,7 +7,7 @@ block content
                 a(href="/admin/article-add")
                     i.icon-plus
                     | 添加文章
-            h3 文章列表
+            h3=title
         table.table.table-bordered.table-striped
             tr
                 th(width="230") id
@@ -22,7 +22,7 @@ block content
                     td #{item.cat_id}
                     td
                         a(href="#",target="_blacnk",title="#{item.title}") #{item.title}
-                    td #{item.content}
+                    td !{item.content}
                     td #{item.friendly_date}
                     td.operate
                         a.btn.btn-mini(href="/admin/article-edit/#{item._id}")

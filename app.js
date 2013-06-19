@@ -5,6 +5,7 @@
 
 var express = require('express')
   ,adminRoutes = require('./routes/admin')
+  ,userRoutes = require('./routes/user')
   ,path = require('path')
   ,flash = require('connect-flash')
   ,config = require('./config').config;
@@ -16,12 +17,17 @@ var app = express();
 app.configure(function(){
   app.set('views', __dirname + '/views');//设置模板地址
   app.set('view engine', 'jade');//引用jade模板引擎
+  app.use(flash());
   app.use(express.favicon(__dirname + config.favicon));//设置favicon.ico
   app.use(express.bodyParser({uploadDir: __dirname+'/public/data/temp'}));//设置上传缓存路径
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(flash());
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.cookieParser());
+  app.use(express.session({
+    secret: config.session_secret,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
+  }));
 });
 
 app.configure('development', function(){
@@ -53,6 +59,9 @@ app.post( '/admin/product-cat-update/:id', adminRoutes.productCatUpdate);
 app.get('/admin/article-list', adminRoutes.articleList);
 app.get('/admin/article-add', adminRoutes.articleAdd);
 app.post('/admin/article-add', adminRoutes.articleAdd);
+app.get('/admin/article-destroy/:id', adminRoutes.articleDestroy);
+app.get( '/admin/article-edit/:id', adminRoutes.articleEdit);
+app.post( '/admin/article-update/:id', adminRoutes.articleUpdate);
 //文章分类 Routes
 app.get('/admin/article-cat-list', adminRoutes.articleCatList);
 app.get('/admin/article-cat-add', adminRoutes.articleCatAdd);
@@ -64,6 +73,19 @@ app.post( '/admin/article-cat-update/:id', adminRoutes.articleCatUpdate);
 //留言 Routes
 app.get('/admin/message-list',adminRoutes.messageList);
 app.get('/admin/message-destroy/:id',adminRoutes.messageDestroy);
+
+//友情链接 Routes
+app.get('/admin/friendlink',adminRoutes.friendlinkList);
+app.get('/admin/friendlink-add', adminRoutes.friendlinkAdd);
+app.post('/admin/friendlink-add', adminRoutes.friendlinkAdd);
+app.get('/admin/friendlink-destroy/:id',adminRoutes.friendlinkDestroy);
+app.get( '/admin/friendlink-edit/:id', adminRoutes.friendlinkEdit);
+app.post( '/admin/friendlink-update/:id', adminRoutes.friendlinkUpdate);
+
+//用户 Routes
+app.get('/admin/login',userRoutes.login);
+app.get('/admin/register',userRoutes.register);
+app.post('/admin/register',userRoutes.register);
 //config 渲染到模板
 app.locals({
   config:config

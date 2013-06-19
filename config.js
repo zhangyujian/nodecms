@@ -6,5 +6,6 @@ exports.config = {
 	favicon: '/public/favicon.ico',//favicon.ico 路径
 	//Service
 	port: 3002,
-	db: 'mongodb://localhost/nodecms'
+	db: 'mongodb://localhost/nodecms',
+	session_secret: 'NodeCMS'
 };

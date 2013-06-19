@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts
+                h3=title
+        form.form-horizontal(action="/admin/friendlink-update/#{Friendlink._id}",method="post",accept-charset="utf-8")
+            .control-group
+                label.control-label 站点名称
+                .controls
+                    input(type="text",placeholder="站点名称",name="name",value="#{Friendlink.name}")
+            .control-group
+                label.control-label 站点链接
+                .controls
+                    input(type="text",placeholder="站点链接",name="link",value="#{Friendlink.link}")
+            .control-group
+                .controls
+                    button.btn(type="submit") 确定

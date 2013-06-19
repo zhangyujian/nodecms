@@ -4,21 +4,23 @@ block content
     .span10
         .page-title
             .opts.pull-right
-                a(href="/admin/product-cat-add")
+                a(href="/admin/friendlink-add")
                     i.icon-plus
-                    | 添加分类
+                    | 添加站点
             h3=title
         table.table.table-bordered.table-striped
             tr
                 th(width="230") id
                 th 名称
-                th(width="68") 操作
-            each item in ProductCats
+                th 链接地址
+                th 操作
+            each item in Friendlinks
                 tr
                     td #{item._id}
                     td #{item.name}
+                    td #{item.link}
                     td.operate
-                        a.btn.btn-mini(href="/admin/product-cat-edit/#{item._id}")
+                        a.btn.btn-mini(href="/admin/friendlink-edit/#{item._id}")
                             i.icon-edit
-                        a.btn.btn-danger.btn-mini(href="/admin/product-cat-destroy/#{item._id}")
+                        a.btn.btn-danger.btn-mini(href="/admin/friendlink-destroy/#{item._id}")
                             i.icon-remove.icon-white

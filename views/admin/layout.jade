@@ -56,9 +56,19 @@ html
                                 li
                                     a(href="/admin/article-list") 文章列表
                         li
-                            a(href="/admin/about") 关于我们
+                            a(href="#") 单页管理
+                            ul.sub-nav
+                                li
+                                    a(href="/admin/about") 关于我们
+                                li
+                                    a(href="/admin/contact") 联系我们
                         li
-                            a(href="/admin/contact") 联系我们
-                        li
-                            a(href="/admin/message-list") 留言管理
+                            a(href="#") 其他管理
+                            ul.sub-nav
+                                li
+                                    a(href="/admin/message-list") 留言
+                                li
+                                    a(href="/admin/friendlink") 友情链接
+                                li
+                                    a(href="/admin/") 数据管理
                 block content
