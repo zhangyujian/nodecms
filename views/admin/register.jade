@@ -17,8 +17,8 @@ html
                 .login-box
                     h3=title
                     p
-                        - if (!!message)
-                            span #{message.error}
+                        - if (error)
+                            span #{error}
                     form(action="/admin/register",method="post",accept-charset="utf-8")
                         input.span4(type="text",name="name",placeholder="用户名")
                         input.span4(type="password",name="password",placeholder="密码")
