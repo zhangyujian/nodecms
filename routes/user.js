@@ -1,24 +1,16 @@
 require('../db');
 
 var mongoose = require('mongoose'),
-<<<<<<< HEAD
 	  crypto = require('crypto'),
-    flash = require('connect-flash'),
     User = mongoose.model('User');
-=======
-	  crypto   = require('crypto'),
-    User     = mongoose.model('User');
->>>>>>> 2aa51ac4f61e321575eee7258e80af300f4a631d
 
 exports.login = function(req, res){
   res.render('admin/login', { title: 'NodeCMS登录' })
 };
 
 exports.register = function(req, res){
-  console.log(req.flash);
   if( req.method === 'GET' ){
   	User.find()
-<<<<<<< HEAD
   	  .exec(function (err ,Users){
 		    res.render('admin/register', {
             title: 'NodeCMS注册',

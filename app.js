@@ -37,25 +37,6 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-
-app.get('/', function(req, res){
-  res.send({ message: req.flash('info') });
-});
-
-app.get('/flash', function(req, res){
-  req.flash('info', 'Hi there!')
-  res.redirect('/');
-});
-
-app.get('/no-flash', function(req, res){
-  res.redirect('/');
-});
-
-app.get('/multiple-flash', function(req, res){
-    req.flash('info', ['Welcome', 'Please Enjoy']);
-    res.redirect('/');
-});
-
 // Routes
 app.get('/admin', adminRoutes.index);
 //产品 Routes
