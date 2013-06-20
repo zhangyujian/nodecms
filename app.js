@@ -18,16 +18,16 @@ app.configure(function(){
   app.set('views', __dirname + '/views');//设置模板地址
   app.set('view engine', 'jade');//引用jade模板引擎
   app.use(flash());
-  app.use(express.favicon(__dirname + config.favicon));//设置favicon.ico
-  app.use(express.bodyParser({uploadDir: __dirname+'/public/data/temp'}));//设置上传缓存路径
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.cookieParser());
   app.use(express.session({
     secret: config.session_secret,
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
   }));
+  app.use(express.favicon(__dirname + config.favicon));//设置favicon.ico
+  app.use(express.bodyParser({uploadDir: __dirname+'/public/data/temp'}));//设置上传缓存路径
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){

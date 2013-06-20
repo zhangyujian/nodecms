@@ -22,5 +22,6 @@ html
                         input.span4(type="password",name="password_repeat",placeholder="确认密码")
                         input.span4(type="text",name="email",placeholder="邮箱")
                         input.btn.btn-block.btn-primary.btn-large(type="submit",value="注册")
+                    p #{info}
                     each item in Users
                         p #{item.name}
