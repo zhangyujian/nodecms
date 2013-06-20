@@ -1,16 +1,18 @@
 require('../db');
+
 var mongoose = require('mongoose'),
-	crypto = require('crypto'),
-    User = mongoose.model('User');
+	  crypto   = require('crypto'),
+    User     = mongoose.model('User');
 
 exports.login = function(req, res){
   res.render('admin/login', { title: 'NodeCMS登录' })
 };
 
 exports.register = function(req, res){
+  console.log(req.flash);
   if( req.method === 'GET' ){
   	User.find()
-  	  .exec(function (err ,Users){
+  	  .exec(function (err ,Users){ 
 		res.render('admin/register', {
                 title: 'NodeCMS注册',
                 Users: Users
@@ -19,8 +21,8 @@ exports.register = function(req, res){
     //res.render('admin/register', { title: 'NodeCMS注册' })
   }else if( req.method === 'POST' ){
   	if(req.body.password != req.body.password_repeat ){
-  	  res.flash('error','两次输入的密码不一致!');
-      return res.redirect('/admin/register');
+  	  req.flash('error','两次输入的密码不一致!');
+      return res.send({ message: req.flash('error').toString() });
   	}
     if(req.body.name){
       new User({
