@@ -11,10 +11,6 @@ var mongoose = require('mongoose'),
     Friendlink = mongoose.model('Friendlink'),
     markdown = require('markdown').markdown;
 
-exports.index = function(req, res){
-  res.render('admin/index', { title: '首页' })
-};
-
 //创建md5方法
 function md5(str) {
   var md5sum = crypto.createHash('md5');
@@ -22,6 +18,10 @@ function md5(str) {
   str = md5sum.digest('hex');
   return str;
 }
+
+exports.index = function(req, res){
+  res.render('admin/index', { title: '首页' })
+};
 
 // product
 exports.productList = function(req, res){
