@@ -20,7 +20,13 @@ function md5(str) {
 }
 
 exports.index = function(req, res){
-  res.render('admin/index', { title: '首页' })
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  res.render('admin/index', { 
+    title: '首页',
+    User: req.session.User
+  });
 };
 
 // product

@@ -83,8 +83,10 @@ app.post( '/admin/friendlink-update/:id', adminRoutes.friendlinkUpdate);
 
 //用户 Routes
 app.get('/admin/login',userRoutes.login);
+app.post('/admin/login',userRoutes.login);
 app.get('/admin/register',userRoutes.register);
 app.post('/admin/register',userRoutes.register);
+app.get('/admin/logout',userRoutes.logout);
 //config 渲染到模板
 app.locals({
   config:config

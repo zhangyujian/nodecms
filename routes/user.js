@@ -13,7 +13,33 @@ function md5(str) {
 }
 
 exports.login = function(req, res){
-  res.render('admin/login', { title: 'NodeCMS登录' })
+  if( req.method === 'GET' ){
+    if (req.session.User) {
+      res.redirect('/admin');
+    }else{
+      res.render('admin/login', { 
+        title: 'NodeCMS登录',
+        User: req.session.User,
+        info: req.flash('info')
+      });
+    }
+  }else if( req.method === 'POST' ){
+    User.findOne({name:req.body.name})
+      .exec(function ( err, User ){
+        if( !User ){
+          req.flash('info','用户名不存在!');
+          res.redirect('/admin/login');
+        }
+        else if( md5(req.body.password) != User.password ){
+          req.flash('info','密码错误!');
+          res.redirect('/admin/login');
+        }else{
+          req.session.User = User;
+          req.flash('info','登录成功');
+          res.redirect('/admin');
+        }
+      });
+  }
 };
 
 exports.register = function(req, res){
@@ -23,12 +49,12 @@ exports.register = function(req, res){
 		    res.render('admin/register', {
             title: 'NodeCMS注册',
             Users: Users,
+            user: req.session.user,
             info: req.flash('info')
           });
   		  });
     //res.render('admin/register', { title: 'NodeCMS注册' })
   }else if( req.method === 'POST' ){
-    //var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
     if(!req.body.name){
       req.flash('info','用户名不能为空');
       return res.redirect('/admin/register');
@@ -46,15 +72,40 @@ exports.register = function(req, res){
       return res.redirect('/admin/register');
     }
     else{
-      new User({
+      var password = md5(req.body.password);
+      var newUser = new User({
         name     :   req.body.name,
-        password :   md5(req.body.password),
+        password :   password,
         email    :   req.body.email
-      }).save(function ( err ){
+      });
+      newUser.save(function ( err ){
       	if(err) throw err;
-        req.flash('info','注册成功');
+        //req.flash('info','注册成功');
+        req.session.User = newUser;//用户信息存入 session
       	res.redirect('/admin');
       });
     }
   }
 };
+
+exports.logout = function(req, res){
+  req.session.User = null;
+  req.flash('info','登出成功!');
+  res.redirect('/admin/login');
+};
+
+function checkLogin(req, res, next){
+  if(!req.session.User){
+    req.flash('info','未登录!'); 
+    return res.redirect('/admin/login');
+  }
+  next();
+}
+
+function checkNotLogin(req,res,next){
+  if(req.session.User){
+    req.flash('info','已登录!'); 
+    return res.redirect('/admin');
+  }
+  next();
+}

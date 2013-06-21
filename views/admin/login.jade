@@ -16,13 +16,14 @@ html
             .login-wrapper
                 .login-box
                     h3=title
-                    form
-                        input.span4(type="text",placeholder="用户名")
-                        input.span4(type="password",placeholder="密码")
+                    form(action="/admin/login",method="post",accept-charset="utf-8")
+                        input.span4(type="text",name="name",placeholder="用户名")
+                        input.span4(type="password",name="password",placeholder="密码")
                         .login-actions
                             .pull-right
                                 a.muted 忘记密码
-                            label(for="remember-me")
+                            label
                                 input#remember-me(type="checkbox")
                                 | 记住密码
                         input.btn.btn-block.btn-primary.btn-large(type="submit",value="登录")
+                        p #{info}

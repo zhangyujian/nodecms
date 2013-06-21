@@ -25,7 +25,7 @@ html
                         ul.nav.pull-right
                             li
                                 a.dropdown-toggle(data-toggle="dropdown",href="#") 
-                                    | 你好，admin 
+                                    | 你好，#{User.name}
                                     b.caret
                                 ul.dropdown-menu
                                     li
@@ -33,7 +33,7 @@ html
                                             i.icon-lock
                                             | 修改密码
                                     li
-                                        a(href="#")
+                                        a(href="/admin/logout")
                                             i.icon-lock
                                             | 退出登录
         .container-fluid.vi-layout
