@@ -50,11 +50,15 @@ exports.productList = function(req, res){
                   }
                 }
               }
+              if (!req.session.User) {
+                return res.redirect('/admin/login');
+              }
               res.render('admin/product-list', {
                   title: '产品列表',
                   Products: Products,
                   req: req,
-                  count: count
+                  count: count,
+                  User: req.session.User
                 });
             });
         });
@@ -65,9 +69,13 @@ exports.productAdd = function (req, res) {
     if (req.method === 'GET') {
         ProductCat.find()
           .exec(function(err, ProductCats){
+            if (!req.session.User) {
+              return res.redirect('/admin/login');
+            }
             res.render('admin/product-add', {
                 title: '添加新产品',
-                ProductCats: ProductCats
+                ProductCats: ProductCats,
+                User: req.session.User
             });
           });
     } else if (req.method === 'POST') {
@@ -109,10 +117,14 @@ exports.productEdit = function( req, res, next ){
     .exec(function(err, ProductCats){
       Product.findById( req.params.id, function ( err, Product ){
         if( err ) return next( err );
+        if (!req.session.User) {
+          return res.redirect('/admin/login');
+        }
         res.render( 'admin/product-edit', {
           title   : '编辑产品',
           Product : Product,
-          ProductCats : ProductCats
+          ProductCats : ProductCats,
+          User: req.session.User
         });
       });
     });
@@ -164,9 +176,13 @@ exports.productDestroy = function ( req, res, next ){
 exports.productCatList = function(req, res){
   ProductCat.find()
     .exec(function(err, ProductCats){
+      if (!req.session.User) {
+        return res.redirect('/admin/login');
+      }
       res.render('admin/product-cat-list', {
           title: '产品分类列表',
-          ProductCats: ProductCats
+          ProductCats: ProductCats,
+          User: req.session.User
       });
     });
 };
@@ -175,9 +191,13 @@ exports.productCatAdd = function (req, res) {
     if (req.method === 'GET') {
         ProductCat.find()
           .exec(function(err, ProductCats){
+            if (!req.session.User) {
+              return res.redirect('/admin/login');
+            }
             res.render('admin/product-cat-add', {
                 title: '添加产品分类',
-                ProductCats: ProductCats
+                ProductCats: ProductCats,
+                User: req.session.User
             });
           });
     } else if (req.method === 'POST') {
@@ -205,9 +225,13 @@ exports.productCatDestroy = function ( req, res, next ){
 exports.productCatEdit = function( req, res, next ){
   ProductCat.findById( req.params.id, function ( err, ProductCat ){
     if( err ) return next( err );
+    if (!req.session.User) {
+      return res.redirect('/admin/login');
+    }
     res.render( 'admin/product-cat-edit', {
       title   : '编辑产品分类',
-      ProductCat : ProductCat
+      ProductCat : ProductCat,
+      User: req.session.User
     });
   });
 };
@@ -224,6 +248,9 @@ exports.productCatUpdate = function ( req, res ){
 
 //Article
 exports.articleList = function(req, res){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   Article.count()
     .exec(function(err, count){
       Article.find()
@@ -246,7 +273,8 @@ exports.articleList = function(req, res){
                   title: '文章列表',
                   Articles: Articles,
                   req: req,
-                  count: count
+                  count: count,
+                  User: req.session.User
                 });
             });
         });
@@ -255,11 +283,15 @@ exports.articleList = function(req, res){
 
 exports.articleAdd = function (req, res) {
     if (req.method === 'GET') {
+        if (!req.session.User) {
+          return res.redirect('/admin/login');
+        }
         ArticleCat.find()
           .exec(function(err, ArticleCats){
             res.render('admin/article-add', {
                 title: '添加新文章',
-                ArticleCats: ArticleCats
+                ArticleCats: ArticleCats,
+                User: req.session.User
             });
           });
     } else if (req.method === 'POST') {
@@ -295,6 +327,9 @@ exports.articleAdd = function (req, res) {
 };
 
 exports.articleEdit = function( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ArticleCat.find()
     .exec(function(err, ArticleCats){
       Article.findById( req.params.id, function ( err, Article ){
@@ -302,7 +337,8 @@ exports.articleEdit = function( req, res, next ){
         res.render( 'admin/article-edit', {
           title   : '编辑文章',
           Article : Article,
-          ArticleCats : ArticleCats
+          ArticleCats : ArticleCats,
+          User: req.session.User
         });
       });
     });
@@ -350,22 +386,30 @@ exports.articleDestroy = function ( req, res, next ){
 
 //Article cat
 exports.articleCatList = function(req, res){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ArticleCat.find()
     .exec(function(err, ArticleCats){
       res.render('admin/article-cat-list', {
           title: '文章分类',
-          ArticleCats: ArticleCats
+          ArticleCats: ArticleCats,
+          User: req.session.User
       });
     });
 };
 
 exports.articleCatAdd = function (req, res) {
     if (req.method === 'GET') {
+        if (!req.session.User) {
+          return res.redirect('/admin/login');
+        }
         ArticleCat.find()
           .exec(function(err, ArticleCats){
             res.render('admin/article-cat-add', {
                 title: '添加文章分类',
-                ArticleCats: ArticleCats
+                ArticleCats: ArticleCats,
+                User: req.session.User
             });
           });
     } else if (req.method === 'POST') {
@@ -391,11 +435,15 @@ exports.articleCatDestroy = function ( req, res, next ){
 };
 
 exports.articleCatEdit = function( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ArticleCat.findById( req.params.id, function ( err, ArticleCat ){
     if( err ) return next( err );
     res.render( 'admin/article-cat-edit', {
       title   : '编辑产品分类',
-      ArticleCat : ArticleCat
+      ArticleCat : ArticleCat,
+      User: req.session.User
     });
   });
 };
@@ -412,11 +460,15 @@ exports.articleCatUpdate = function ( req, res ){
 
 // message
 exports.messageList = function (req, res) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   Message.find()
     .exec(function (err, Messages) {
         res.render('admin/message-list', {
             title: '留言列表',
-            Messages: Messages
+            Messages: Messages,
+            User: req.session.User
         });
     });
 };
@@ -432,22 +484,30 @@ exports.messageDestroy = function ( req, res, next ){
 
 // link
 exports.friendlinkList = function (req, res) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   Friendlink.find()
     .exec(function (err, Friendlinks) {
         res.render('admin/friendlink', {
             title: '友情链接列表',
-            Friendlinks: Friendlinks
+            Friendlinks: Friendlinks,
+            User: req.session.User
         });
     });
 };
 
 exports.friendlinkAdd = function (req, res) {
     if (req.method === 'GET') {
+        if (!req.session.User) {
+          return res.redirect('/admin/login');
+        }
         Friendlink.find()
           .exec(function(err, Friendlinks){
             res.render('admin/friendlink-add', {
                 title: '添加产品分类',
-                Friendlinks: Friendlinks
+                Friendlinks: Friendlinks,
+                User: req.session.User
             });
           });
     } else if (req.method === 'POST') {
@@ -465,11 +525,15 @@ exports.friendlinkAdd = function (req, res) {
 };
 
 exports.friendlinkEdit = function ( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   Friendlink.findById( req.params.id, function ( err, Friendlink ){
     if( err ) return next( err );
     res.render( 'admin/friendlink-edit', {
       title   : '编辑友情链接',
-      Friendlink : Friendlink
+      Friendlink : Friendlink,
+      User: req.session.User
     });
   });
 };
