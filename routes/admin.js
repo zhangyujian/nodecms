@@ -31,6 +31,9 @@ exports.index = function(req, res){
 
 // product
 exports.productList = function(req, res){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   Product.count()
     .exec(function(err, count){
       Product.find()
@@ -50,9 +53,6 @@ exports.productList = function(req, res){
                   }
                 }
               }
-              if (!req.session.User) {
-                return res.redirect('/admin/login');
-              }
               res.render('admin/product-list', {
                   title: '产品列表',
                   Products: Products,
@@ -66,12 +66,12 @@ exports.productList = function(req, res){
 };
 
 exports.productAdd = function (req, res) {
+    if (!req.session.User) {
+      return res.redirect('/admin/login');
+    }
     if (req.method === 'GET') {
         ProductCat.find()
           .exec(function(err, ProductCats){
-            if (!req.session.User) {
-              return res.redirect('/admin/login');
-            }
             res.render('admin/product-add', {
                 title: '添加新产品',
                 ProductCats: ProductCats,
@@ -113,13 +113,13 @@ exports.productAdd = function (req, res) {
 };
 
 exports.productEdit = function( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ProductCat.find()
     .exec(function(err, ProductCats){
       Product.findById( req.params.id, function ( err, Product ){
         if( err ) return next( err );
-        if (!req.session.User) {
-          return res.redirect('/admin/login');
-        }
         res.render( 'admin/product-edit', {
           title   : '编辑产品',
           Product : Product,
@@ -174,11 +174,11 @@ exports.productDestroy = function ( req, res, next ){
 
 //product cat
 exports.productCatList = function(req, res){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ProductCat.find()
     .exec(function(err, ProductCats){
-      if (!req.session.User) {
-        return res.redirect('/admin/login');
-      }
       res.render('admin/product-cat-list', {
           title: '产品分类列表',
           ProductCats: ProductCats,
@@ -188,12 +188,12 @@ exports.productCatList = function(req, res){
 };
 
 exports.productCatAdd = function (req, res) {
+    if (!req.session.User) {
+      return res.redirect('/admin/login');
+    }
     if (req.method === 'GET') {
         ProductCat.find()
           .exec(function(err, ProductCats){
-            if (!req.session.User) {
-              return res.redirect('/admin/login');
-            }
             res.render('admin/product-cat-add', {
                 title: '添加产品分类',
                 ProductCats: ProductCats,
@@ -223,11 +223,11 @@ exports.productCatDestroy = function ( req, res, next ){
 };
 
 exports.productCatEdit = function( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
   ProductCat.findById( req.params.id, function ( err, ProductCat ){
     if( err ) return next( err );
-    if (!req.session.User) {
-      return res.redirect('/admin/login');
-    }
     res.render( 'admin/product-cat-edit', {
       title   : '编辑产品分类',
       ProductCat : ProductCat,
@@ -282,10 +282,10 @@ exports.articleList = function(req, res){
 };
 
 exports.articleAdd = function (req, res) {
+    if (!req.session.User) {
+      return res.redirect('/admin/login');
+    }
     if (req.method === 'GET') {
-        if (!req.session.User) {
-          return res.redirect('/admin/login');
-        }
         ArticleCat.find()
           .exec(function(err, ArticleCats){
             res.render('admin/article-add', {
@@ -400,10 +400,10 @@ exports.articleCatList = function(req, res){
 };
 
 exports.articleCatAdd = function (req, res) {
+    if (!req.session.User) {
+      return res.redirect('/admin/login');
+    }
     if (req.method === 'GET') {
-        if (!req.session.User) {
-          return res.redirect('/admin/login');
-        }
         ArticleCat.find()
           .exec(function(err, ArticleCats){
             res.render('admin/article-cat-add', {

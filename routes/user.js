@@ -35,7 +35,7 @@ exports.login = function(req, res){
           res.redirect('/admin/login');
         }else{
           req.session.User = User;
-          req.flash('info','登录成功');
+          //req.flash('info','登录成功');
           res.redirect('/admin');
         }
       });
@@ -83,6 +83,64 @@ exports.register = function(req, res){
         //req.flash('info','注册成功');
         req.session.User = newUser;//用户信息存入 session
       	res.redirect('/admin');
+      });
+    }
+  }
+};
+
+exports.userList = function (req, res) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  User.find()
+    .exec(function(err, Users){
+      res.render('admin/user-list', {
+        title: '用户列表',
+        Users: Users,
+        User: req.session.User,
+        info: req.flash('info')
+      });
+    });
+};
+
+exports.userAdd = function (req, res) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  if( req.method === 'GET' ){
+    res.render('admin/user-add', { 
+      title: '添加用户',
+      info: req.flash('info'),
+      User: req.session.User
+    });
+  }else if( req.method === 'POST' ){
+    if(!req.body.name){
+      req.flash('info','用户名不能为空');
+      return res.redirect('/admin/user-add');
+    }
+    else if(req.body.password.length < 6){
+      req.flash('info','密码不得小于6位');
+      return res.redirect('/admin/user-add');
+    }
+    else if(req.body.password != req.body.password_repeat ){
+      req.flash('info','两次输入的密码不一致!');
+      return res.redirect('/admin/user-add');
+    }
+    else if(!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/.test(req.body.email)){
+      req.flash('info','email格式不正确');
+      return res.redirect('/admin/user-add');
+    }
+    else{
+      var password = md5(req.body.password);
+      var newUser = new User({
+        name     :   req.body.name,
+        password :   password,
+        email    :   req.body.email
+      });
+      newUser.save(function ( err ){
+        if(err) throw err;
+        req.flash('info','添加成功');
+        res.redirect('/admin/user-list');
       });
     }
   }

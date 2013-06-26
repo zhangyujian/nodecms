@@ -87,6 +87,9 @@ app.post('/admin/login',userRoutes.login);
 app.get('/admin/register',userRoutes.register);
 app.post('/admin/register',userRoutes.register);
 app.get('/admin/logout',userRoutes.logout);
+app.get('/admin/user-list',userRoutes.userList);
+app.get('/admin/user-add',userRoutes.userAdd);
+app.post('/admin/user-add',userRoutes.userAdd);
 //config 渲染到模板
 app.locals({
   config:config

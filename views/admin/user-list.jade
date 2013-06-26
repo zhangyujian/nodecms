@@ -1,0 +1,25 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts.pull-right
+                a(href="/admin/user-add")
+                    i.icon-plus
+                    | 添加用户
+            h3=title
+        .alert.alert-succee
+            button.close(type="button",data-dismiss="alert") &times;
+            | #{info}
+        table.table.table-bordered.table-striped
+            tr
+                th 名称
+                th(width="68") 操作
+            each item in Users
+                tr
+                    td #{item.name}
+                    td.operate
+                        a.btn.btn-mini(href="/admin/user-edit/#{item._id}")
+                            i.icon-edit
+                        a.btn.btn-danger.btn-mini(href="/admin/user-destroy/#{item._id}")
+                            i.icon-remove.icon-white
