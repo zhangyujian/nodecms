@@ -1,3 +1,5 @@
+var path = require('path');
+
 exports.config = {
 	debug: true,
 	name: 'NodeCMS',
@@ -7,5 +9,6 @@ exports.config = {
 	//Service
 	port: 3002,
 	db: 'mongodb://localhost/nodecms',
-	session_secret: 'NodeCMS'
+	session_secret: 'NodeCMS',
+    datapath: path.join(__dirname, '/public/data/img'),
 };

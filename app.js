@@ -23,7 +23,7 @@ app.configure(function(){
     cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
   }));
   app.use(express.favicon(__dirname + config.favicon));//设置favicon.ico
-  app.use(express.bodyParser({uploadDir: __dirname+'/public/data/temp'}));//设置上传缓存路径
+  app.use(express.bodyParser({keepExtensions: true, uploadDir: __dirname+'/public/data/img'}));//设置上传缓存路径
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
@@ -37,6 +37,7 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+app.post('/admin/upload', adminRoutes.upload);
 // Routes
 app.get('/admin', adminRoutes.index);
 //产品 Routes

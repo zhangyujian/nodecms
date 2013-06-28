@@ -1,5 +1,6 @@
 require('../db');
 var mongoose = require('mongoose'),
+    config = require('../config').config,
     fs = require('fs'), //引用处理文件功能
     crypto = require('crypto'), //引用md5加密
     Util = require('../libs/util'),
@@ -18,6 +19,15 @@ function md5(str) {
   str = md5sum.digest('hex');
   return str;
 }
+// uploadify 
+exports.upload = function (req, res) {
+  var fileDesc = req.files,
+    imgname = fileDesc.Filedata.name,
+    path = fileDesc.Filedata.path,
+    name = path.replace(config.datapath, ''),
+    imgurl = 'http://localhost:3002/data/img/' + name;
+  res.send(imgurl);
+};
 
 exports.index = function(req, res){
   if (!req.session.User) {

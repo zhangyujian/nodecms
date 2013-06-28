@@ -1,4 +1,26 @@
 extends layout
 
 block content
-    h1 index
+    .span10
+        h1 index
+        div.input_frame
+            input#file_upload(type="file", name="file_upload")
+        
+        div#img_box.img
+            p no images
+    
+    script.
+        $(function() {
+            $('#file_upload').uploadify({
+                'swf'     : '/uploadify/uploadify.swf',
+                'uploader' : '/admin/upload',
+                'formData':{},
+                'cancelImg':'/uploadify/uploadify-cancel.png',
+                'onUploadSuccess' : function(file, data, response) {
+                    //  alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+
+                    var img="<img src=\""+data+"\"/>";
+                    $("#img_box").append(img);
+                }
+            });
+        });
