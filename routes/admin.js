@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
     ArticleCat = mongoose.model('ArticleCat'),
     Message = mongoose.model('Message'),
     Friendlink = mongoose.model('Friendlink'),
+    Page = mongoose.model('Page'),
     markdown = require('markdown').markdown;
 
 //创建md5方法
@@ -93,7 +94,7 @@ exports.productAdd = function (req, res) {
               img_name = md5(img[0]),
               img_ext  = img[1];
         var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/product/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
         if (req.body.title) {
           new Product({
               title   : req.body.title,
@@ -146,8 +147,8 @@ exports.productUpdate = function( req, res, next ){
         img_name = md5(img[0]),
         img_ext  = img[1];
     var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/product/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
-
+        target_path = './public/data/img/' + img_name+ '.' +img_ext;
+    var tmp_img = './public/data/img/' + Product.img;
     Product.title = req.body.title;
     Product.content = req.body.content;
     if(Product.cat_id != req.body.cat_id){
@@ -155,6 +156,11 @@ exports.productUpdate = function( req, res, next ){
     }
     Product.price = req.body.price;
     Product.img = req.files.thumbnail.name?img_name+ '.' +img_ext:Product.img;
+    /*
+    if(req.files.thumbnail.name){
+      fs.unlink(tmp_img);
+    }
+    */
     Product.save( function ( err, Product ){
       if( err ) return next( err );
       if (req.files.thumbnail.name) {
@@ -162,7 +168,6 @@ exports.productUpdate = function( req, res, next ){
           if(err) throw err;
           fs.unlink(tmp_path, function(){
             if(err) throw err;
-            //res.send(img_name+ '.' +img_ext);
             res.redirect('/admin/product-list');
           });
         });
@@ -309,7 +314,7 @@ exports.articleAdd = function (req, res) {
               img_name = md5(img[0]),
               img_ext  = img[1];
         var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/article/' + img_name+ '.' +img_ext;
+        target_path = './public/data/img/' + img_name+ '.' +img_ext;
         if (req.body.title) {
           new Article({
               title   : req.body.title,
@@ -360,7 +365,7 @@ exports.articleUpdate = function( req, res, next ){
         img_name = md5(img[0]),
         img_ext  = img[1];
     var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/article/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
+        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
 
     Article.title = req.body.title;
     Article.content = req.body.content;
@@ -508,30 +513,26 @@ exports.friendlinkList = function (req, res) {
 };
 
 exports.friendlinkAdd = function (req, res) {
-    if (req.method === 'GET') {
-        if (!req.session.User) {
-          return res.redirect('/admin/login');
-        }
-        Friendlink.find()
-          .exec(function(err, Friendlinks){
-            res.render('admin/friendlink-add', {
-                title: '添加产品分类',
-                Friendlinks: Friendlinks,
-                User: req.session.User
-            });
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  if (req.method === 'GET') {
+    res.render('admin/friendlink-add', {
+        title: '添加产品分类',
+        User: req.session.User
+    });
+  } else if (req.method === 'POST') {
+    if (req.body.name) {
+      new Friendlink({
+          name   : req.body.name,
+          link   : req.body.link
+      }).save(function (err) {
+            res.redirect('/admin/friendlink');
           });
-    } else if (req.method === 'POST') {
-        if (req.body.name) {
-          new Friendlink({
-              name   : req.body.name,
-              link   : req.body.link
-          }).save(function (err) {
-                res.redirect('/admin/friendlink');
-              });
-        }else{
-          res.redirect('/admin/friendlink');
-        }
+    }else{
+      res.redirect('/admin/friendlink');
     }
+  }
 };
 
 exports.friendlinkEdit = function ( req, res, next ){
@@ -564,6 +565,54 @@ exports.friendlinkDestroy = function ( req, res, next ){
     Friendlink.remove( function ( err, Friendlink ){
       if( err ) return next( err );
       res.redirect( '/admin/friendlink' );
+    });
+  });
+};
+
+//page
+exports.pageList = function (req, res ) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  Page.find()
+    .exec(function (err, Pages) {
+      res.render('admin/page-list', {
+          title: '页面列表',
+          Pages: Pages,
+          User: req.session.User
+      });
+    });
+};
+
+exports.pageAdd = function (req, res) {
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  if (req.method === 'GET') {
+    res.render('admin/page-add', {
+        title: '添加新页面',
+        User: req.session.User
+    });
+  } else if (req.method === 'POST') {
+    if (req.body.name) {
+      new Page({
+          name   : req.body.name,
+          content: req.body.content,
+          url    : req.body.url
+      }).save(function (err) {
+            res.redirect('/admin/page-list');
+          });
+    }else{
+      res.redirect('/admin/page-list');
+    }
+  }
+};
+
+exports.pageDestroy = function ( req, res, next ){
+  Page.findById( req.params.id, function ( err, Page ){
+    Page.remove( function ( err, Page ){
+      if( err ) return next( err );
+      res.redirect( '/admin/page-list' );
     });
   });
 };

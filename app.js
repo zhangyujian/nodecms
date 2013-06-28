@@ -82,6 +82,14 @@ app.get('/admin/friendlink-destroy/:id',adminRoutes.friendlinkDestroy);
 app.get( '/admin/friendlink-edit/:id', adminRoutes.friendlinkEdit);
 app.post( '/admin/friendlink-update/:id', adminRoutes.friendlinkUpdate);
 
+//page Routes
+app.get('/admin/page-list',adminRoutes.pageList);
+app.get('/admin/page-add', adminRoutes.pageAdd);
+app.post('/admin/page-add', adminRoutes.pageAdd);
+app.get('/admin/page-destroy/:id',adminRoutes.pageDestroy);
+//app.get( '/admin/page-edit/:id', adminRoutes.pageEdit);
+//app.post( '/admin/page-update/:id', adminRoutes.pageUpdate);
+
 //用户 Routes
 app.get('/admin/login',userRoutes.login);
 app.post('/admin/login',userRoutes.login);
@@ -91,6 +99,10 @@ app.get('/admin/logout',userRoutes.logout);
 app.get('/admin/user-list',userRoutes.userList);
 app.get('/admin/user-add',userRoutes.userAdd);
 app.post('/admin/user-add',userRoutes.userAdd);
+app.get('/admin/user-destroy/:id',userRoutes.userDestroy);
+app.get( '/admin/user-edit/:id', userRoutes.userEdit);
+app.post( '/admin/user-update/:id', userRoutes.userUpdate);
+
 //config 渲染到模板
 app.locals({
   config:config

@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts.pull-right
+                a(href="/admin/page-add")
+                    i.icon-plus
+                    | 添加页面
+            h3=title
+        table.table.table-bordered.table-striped
+            tr
+                th(width="230") id
+                th 名称
+                th 内容
+                th url
+                th(width="68") 操作
+            each item in Pages
+                tr
+                    td #{item._id}
+                    td #{item.name}
+                    td #{item.content}
+                    td #{item.url}
+                    td.operate
+                        a.btn.btn-mini(href="/admin/page-edit/#{item._id}")
+                            i.icon-edit
+                        a.btn.btn-danger.btn-mini(href="/admin/page-destroy/#{item._id}")
+                            i.icon-remove.icon-white

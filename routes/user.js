@@ -146,6 +146,45 @@ exports.userAdd = function (req, res) {
   }
 };
 
+exports.userEdit = function ( req, res, next ){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  User.findById( req.params.id, function ( err, Userthis ){
+    if( err ) return next( err );
+    res.render( 'admin/user-edit', {
+      title   : '修改账号',
+      Userthis : Userthis,
+      info: req.flash('info'),
+      User: req.session.User
+    });
+  });
+};
+
+exports.userUpdate = function ( req, res, next ){
+  if(req.body.password != req.body.password_repeat ){
+    req.flash('info','两次输入的密码不一致!');
+    return res.redirect('/admin/user-edit/'+req.params.id);
+  }
+  User.findById( req.params.id, function ( err, User ){
+    User.password = md5(req.body.password);
+    User.save( function ( err, User ){
+      if( err ) return next( err );
+      req.flash('info','密码修改成功!');
+      res.redirect( '/admin/user-list' );
+    });
+  });
+};
+
+exports.userDestroy = function ( req, res, next ){
+  User.findById( req.params.id, function ( err, User ){
+    User.remove( function ( err, User ){
+      if( err ) return next( err );
+      res.redirect( '/admin/user-list' );
+    });
+  });
+};
+
 exports.logout = function(req, res){
   req.session.User = null;
   req.flash('info','登出成功!');

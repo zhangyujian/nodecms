@@ -9,4 +9,9 @@ $(document).ready(function(){
 		}
 		$(this).children("ul").toggle();
 	});
+	if($(".alert").text() === "×"){
+		$(".alert").hide();
+	}else{
+		$(".alert").show();
+	}
 });

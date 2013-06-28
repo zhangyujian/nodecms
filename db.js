@@ -55,6 +55,13 @@ var userSchema = new Schema({
     email    :       { type : String },
 });
 
+var pageSchema = new Schema({
+    name     :       { type : String },
+    content  :       { type : String },
+    img      :       [String],
+    url      :       { type : String },
+});
+
 mongoose.model('Article', ArticleSchema);
 mongoose.model('ArticleCat', ArticleCatSchema);
 mongoose.model('Product', ProductSchema);
@@ -62,3 +69,4 @@ mongoose.model('ProductCat', ProductCatSchema);
 mongoose.model('Message', MessageSchema);
 mongoose.model('Friendlink', FriendlinkSchema);
 mongoose.model('User', userSchema);
+mongoose.model('Page', pageSchema);

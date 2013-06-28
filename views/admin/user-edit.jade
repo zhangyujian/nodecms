@@ -5,14 +5,14 @@ block content
         .page-title
             .opts
                 h3=title
-        .alert.alert-succee
+        .alert.alert-succee.fade.in
             button.close(type="button",data-dismiss="alert") &times;
             | #{info}
-        form.form-horizontal(action="/admin/user-add",method="post",accept-charset="utf-8")
+        form.form-horizontal(action="/admin/user-update/#{Userthis._id}",method="post",accept-charset="utf-8")
             .control-group
                 label.control-label 用户名
                 .controls
-                    input(type="text",placeholder="用户名",name="name")
+                    input(type="text",placeholder="#{Userthis.name}",disabled)
             .control-group
                 label.control-label 密码
                 .controls
@@ -22,9 +22,5 @@ block content
                 .controls
                     input(type="password",placeholder="确认密码",name="password_repeat")
             .control-group
-                label.control-label 邮箱
                 .controls
-                    input(type="text",placeholder="邮箱",name="email")
-            .control-group
-                .controls
-                    button.btn(type="submit") 确定添加
+                    button.btn(type="submit") 确定
