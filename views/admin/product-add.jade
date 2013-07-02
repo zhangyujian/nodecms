@@ -27,7 +27,10 @@ block content
             .control-group
                 label.control-label 产品图片
                 .controls
-                    input(type="file",placeholder="产品图片",name="thumbnail")
+                    input.file_img(type="text", name="file_img")
+                    div#img_box.img
+                    input#file_upload(type="file", name="file_upload")
+                    <!--input(type="file",placeholder="产品图片",name="thumbnail")-->
             .control-group
                 .controls
                     button.btn(type="submit") 确定

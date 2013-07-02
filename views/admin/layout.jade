@@ -13,6 +13,21 @@ html
         script(src="/js/bootstrap.min.js", type="text/javascript")
         script(src="/uploadify/jquery.uploadify.js")
         script(src="/js/common.js", type="text/javascript")
+        script.
+            $(function() {
+                $('#file_upload').uploadify({
+                    'swf'     : '/uploadify/uploadify.swf',
+                    'uploader' : '/admin/upload',
+                    'formData':{},
+                    'cancelImg':'/uploadify/uploadify-cancel.png',
+                    'onUploadSuccess' : function(file, data, response) {
+                        //  alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+                        var img="<img src=\""+data+"\"/>";
+                        $("#img_box").append(img);
+                        console.log(file.name);
+                    }
+                });
+            });
     body
         .navbar.navbar-inverse.navbar-fixed-top
             .navbar-inner
