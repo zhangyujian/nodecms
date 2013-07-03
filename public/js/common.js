@@ -15,10 +15,9 @@ $(document).ready(function(){
 		$(".alert").show();
 	}
 	var cur_path = document.location.pathname;
-    var elems = $('a' ,'.bs-docs-sidenav');
-    //var elem_src = $('a' ,'.bs-docs-sidenav').attr('href');
-    elems.each(function(index, item){
-        item.href.indexOf(cur_path) === -1 ? $(this).addClass('') : $(this).addClass('active');
-        //console.log(item.href);
-        });
+    $('a' ,'.bs-docs-sidenav').each(function(){
+    	if($(this).attr('href') == cur_path){
+    		$(this).addClass('active');
+    	}
+    });
 });

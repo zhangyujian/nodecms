@@ -13,7 +13,7 @@ var ArticleSchema = new Schema({
     content  :    { type : String },
     tags     :    [String],
     count    :    { type:Number, default:0 },
-    img      :    { type : String },
+    img      :    [String],
     publish  :    { type: Boolean, default: false },
     date     :    { type: Date, default: Date.now },
     comments :    [{ email: String, name: String, content: String, date: Date }], 
@@ -28,7 +28,7 @@ var ProductSchema = new Schema({
     cat_id   :    { type : String },
     title    :    { type : String },
     content  :    { type : String },
-    img      :    { type : String },
+    img      :    [String],
     date     :    { type : Date,default: Date.now },
     price    :    { type : String },
 });

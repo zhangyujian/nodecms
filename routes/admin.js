@@ -91,27 +91,18 @@ exports.productAdd = function (req, res) {
           });
     } else if (req.method === 'POST') {
         if (req.body.title) {
+          var imgs = req.body.file_img.split(',');
+          console.log(imgs);
           new Product({
               title   : req.body.title,
               content : req.body.content,
               cat_id  : req.body.cat_id,
               price   : req.body.price,
-              //img     : 
+              img     : imgs,
               date    : Date.now()
           }).save(function (err) {
               if(err) throw err;
-                  if (req.files.thumbnail.name) {
-                    fs.rename(tmp_path, target_path, function(err) {
-                      if(err) throw err;
-                      fs.unlink(tmp_path, function(){
-                        if(err) throw err;
-                        //res.send(img_name+ '.' +img_ext);
-                        res.redirect('/admin/product-list');
-                      });
-                    });
-                  }else{
-                    res.redirect('/admin/product-list');
-                  }
+                res.redirect('/admin/product-list');
               });
         }else{
           res.redirect('/admin/product-list');

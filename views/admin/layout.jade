@@ -24,11 +24,11 @@ html
                         //  alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
                         var img="<img src=\""+data+"\"/>";
                         $("#img_box").append(img);
-                        console.log(file.name);
+                        var img_num = $(".file_img").val()
+                        $(".file_img").val(img_num+data+",");
+                        //console.log(data);
                     }
                 });
-                
- 
             });
     body
         .navbar.navbar-inverse.navbar-fixed-top
@@ -57,31 +57,31 @@ html
                     ul.nav.nav-list.bs-docs-sidenav
                         li.nav-header 用户面板
                         li
-                            a(href="#") 产品管理
+                            a 产品管理
                             ul.sub-nav
                                 li
                                     a(href="/admin/product-cat-list") 产品分类
                                 li
                                     a(href="/admin/product-list") 产品列表
                         li
-                            a(href="#") 文章管理
+                            a 文章管理
                             ul.sub-nav
                                 li
                                     a(href="/admin/article-cat-list") 文章分类
                                 li
                                     a(href="/admin/article-list") 文章列表
                         li
-                            a(href="#") 单页管理
+                            a 单页管理
                             ul.sub-nav
                                 li
                                     a(href="/admin/page-list") 页面列表
                         li
-                            a(href="#") 用户管理
+                            a 用户管理
                             ul.sub-nav
                                 li
                                     a(href="/admin/user-list") 用户列表
                         li
-                            a(href="#") 其他管理
+                            a 其他管理
                             ul.sub-nav
                                 li
                                     a(href="/admin/message-list") 留言
