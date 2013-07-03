@@ -206,3 +206,11 @@ function checkNotLogin(req,res,next){
   }
   next();
 }
+
+exports.exportDate = function(req, res, next){
+  var exec = require('child_process').exec;
+  exec("mongoexport -d nodecms -c users -o users.dat", function (error, stdout, stderr) {
+      content = stdout;
+      console.log(content);
+  });
+}

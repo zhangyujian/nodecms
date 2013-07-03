@@ -90,20 +90,16 @@ exports.productAdd = function (req, res) {
             });
           });
     } else if (req.method === 'POST') {
-        var img = req.files.thumbnail.name.split('.'),
-              img_name = md5(img[0]),
-              img_ext  = img[1];
-        var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
         if (req.body.title) {
           new Product({
               title   : req.body.title,
               content : req.body.content,
               cat_id  : req.body.cat_id,
               price   : req.body.price,
-              img     : req.files.thumbnail.name?img_name+ '.' +img_ext:"default.jpg",//req.files.thumbnail.name?req.files.thumbnail.name:"default.jpg",
+              //img     : 
               date    : Date.now()
           }).save(function (err) {
+              if(err) throw err;
                   if (req.files.thumbnail.name) {
                     fs.rename(tmp_path, target_path, function(err) {
                       if(err) throw err;

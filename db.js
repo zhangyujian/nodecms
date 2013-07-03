@@ -49,13 +49,13 @@ var FriendlinkSchema = new Schema({
     link    :       { type : String },
 });
 
-var userSchema = new Schema({
+var UserSchema = new Schema({
     name     :       { type : String },
     password :       { type : String },
     email    :       { type : String },
 });
 
-var pageSchema = new Schema({
+var PageSchema = new Schema({
     name     :       { type : String },
     content  :       { type : String },
     img      :       [String],
@@ -68,5 +68,5 @@ mongoose.model('Product', ProductSchema);
 mongoose.model('ProductCat', ProductCatSchema);
 mongoose.model('Message', MessageSchema);
 mongoose.model('Friendlink', FriendlinkSchema);
-mongoose.model('User', userSchema);
-mongoose.model('Page', pageSchema);
+mongoose.model('User', UserSchema);
+mongoose.model('Page', PageSchema);
