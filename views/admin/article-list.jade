@@ -13,6 +13,7 @@ block content
                 th(width="230") id
                 th 分类
                 th 名称
+                th 图片
                 th(width="230") 内容
                 th 时间
                 th(width="68") 操作
@@ -22,6 +23,12 @@ block content
                     td #{item.cat_id}
                     td
                         a(href="#",target="_blacnk",title="#{item.title}") #{item.title}
+                    td
+                        a(href="#",target="_blacnk")
+                            - if ( item.img.length )
+                                - item.img.forEach(function(item){
+                                    img(src=item, style="width: 30px; height: 30px;")
+                                - })
                     td !{item.content}
                     td #{item.friendly_date}
                     td.operate

@@ -23,7 +23,13 @@ block content
             .control-group
                 label.control-label 文章图片
                 .controls
-                    input(type="file",placeholder="文章图片",name="thumbnail",value="")
+                    input.file_img(type="text", name="file_img",value="#{Article.img},",style="display:none;")
+                    div#img_box.img
+                        - if ( Article.img.length )
+                            - Article.img.forEach(function(item){
+                                img(src=item, style="width: 100px; height: 100px;")
+                            - })
+                    input#file_upload(type="file", name="file_upload")
             .control-group
                 .controls
                     button.btn(type="submit") 确定

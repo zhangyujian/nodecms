@@ -20,6 +20,13 @@ function md5(str) {
   str = md5sum.digest('hex');
   return str;
 }
+function arrRemoveTail(arr){
+  var new_arr = [];
+  for (var i = 0; i<arr.length - 1; i++){
+    new_arr.push(arr[i]);
+  };
+  return new_arr;
+}
 // uploadify 
 exports.upload = function (req, res) {
   var fileDesc = req.files,
@@ -92,13 +99,12 @@ exports.productAdd = function (req, res) {
     } else if (req.method === 'POST') {
         if (req.body.title) {
           var imgs = req.body.file_img.split(',');
-          console.log(imgs);
           new Product({
               title   : req.body.title,
               content : req.body.content,
               cat_id  : req.body.cat_id,
               price   : req.body.price,
-              img     : imgs,
+              img     : arrRemoveTail(imgs),
               date    : Date.now()
           }).save(function (err) {
               if(err) throw err;
@@ -130,37 +136,19 @@ exports.productEdit = function( req, res, next ){
 
 exports.productUpdate = function( req, res, next ){
   Product.findById( req.params.id, function ( err, Product){
-    var img = req.files.thumbnail.name.split('.'),
-        img_name = md5(img[0]),
-        img_ext  = img[1];
-    var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;
-    var tmp_img = './public/data/img/' + Product.img;
     Product.title = req.body.title;
     Product.content = req.body.content;
     if(Product.cat_id != req.body.cat_id){
       Product.cat_id = req.body.cat_id;
     }
     Product.price = req.body.price;
-    Product.img = req.files.thumbnail.name?img_name+ '.' +img_ext:Product.img;
-    /*
-    if(req.files.thumbnail.name){
-      fs.unlink(tmp_img);
+    var imgs = req.body.file_img.split(',');
+    if(Product.img != req.body.file_img + ','){
+      Product.img = arrRemoveTail(imgs);
     }
-    */
     Product.save( function ( err, Product ){
       if( err ) return next( err );
-      if (req.files.thumbnail.name) {
-        fs.rename(tmp_path, target_path, function(err) {
-          if(err) throw err;
-          fs.unlink(tmp_path, function(){
-            if(err) throw err;
-            res.redirect('/admin/product-list');
-          });
-        });
-      }else{
-        res.redirect('/admin/product-list');
-      }
+      res.redirect('/admin/product-list');
     });
   });
 };
@@ -297,30 +285,16 @@ exports.articleAdd = function (req, res) {
             });
           });
     } else if (req.method === 'POST') {
-        var img = req.files.thumbnail.name.split('.'),
-              img_name = md5(img[0]),
-              img_ext  = img[1];
-        var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;
         if (req.body.title) {
+          var imgs = req.body.file_img.split(',');
           new Article({
               title   : req.body.title,
               content : req.body.content,
               cat_id  : req.body.cat_id,
-              img     : req.files.thumbnail.name?img_name+ '.' +img_ext:"default.jpg",
+              img     : arrRemoveTail(imgs),
               date    : Date.now()
           }).save(function (err) {
-                  if (req.files.thumbnail.name) {
-                    fs.rename(tmp_path, target_path, function(err) {
-                      if(err) throw err;
-                      fs.unlink(tmp_path, function(){
-                        if(err) throw err;
-                        res.redirect('/admin/article-list');
-                      });
-                    });
-                  }else{
-                    res.redirect('/admin/article-list');
-                  }
+                res.redirect('/admin/article-list');
               });
         }else{
           res.redirect('/admin/article-list');
@@ -348,31 +322,18 @@ exports.articleEdit = function( req, res, next ){
 
 exports.articleUpdate = function( req, res, next ){
   Article.findById( req.params.id, function ( err, Article){
-    var img = req.files.thumbnail.name.split('.'),
-        img_name = md5(img[0]),
-        img_ext  = img[1];
-    var tmp_path = req.files.thumbnail.path,
-        target_path = './public/data/img/' + img_name+ '.' +img_ext;//req.files.thumbnail.name;
-
     Article.title = req.body.title;
     Article.content = req.body.content;
     if(Article.cat_id != req.body.cat_id){
       Article.cat_id = req.body.cat_id;
     }
-    Article.img = req.files.thumbnail.name?img_name+ '.' +img_ext:Article.img;
+    var imgs = req.body.file_img.split(',');
+    if(Article.img != req.body.file_img + ','){
+      Article.img = arrRemoveTail(imgs);
+    }
     Article.save( function ( err, Article ){
       if( err ) return next( err );
-      if (req.files.thumbnail.name) {
-        fs.rename(tmp_path, target_path, function(err) {
-          if(err) throw err;
-          fs.unlink(tmp_path, function(){
-            if(err) throw err;
-            res.redirect('/admin/article-list');
-          });
-        });
-      }else{
-        res.redirect('/admin/article-list');
-      }
+      res.redirect('/admin/article-list');
     });
   });
 };

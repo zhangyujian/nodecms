@@ -27,9 +27,13 @@ block content
             .control-group
                 label.control-label 产品图片
                 .controls
-                    img(src="/data/img/#{Product.img}",style="width: 100px; height: 100px;")
-                    br
-                    input(type="file",placeholder="重新上传",name="thumbnail")
+                    input.file_img(type="text", name="file_img",value="#{Product.img},",style="display:none;")
+                    div#img_box.img
+                        - if ( Product.img.length )
+                            - Product.img.forEach(function(item){
+                                img(src=item, style="width: 100px; height: 100px;")
+                            - })
+                    input#file_upload(type="file", name="file_upload")
             .control-group
                 .controls
                     button.btn(type="submit") 确定

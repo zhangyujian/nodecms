@@ -136,3 +136,9 @@
 	margin: 0 5px 0 0;
 	vertical-align: middle;
 }
+#img_box img{
+	margin-right: 10px;
+	margin-bottom: 10px;
+	width: 100px;
+	height: 100px;
+}
