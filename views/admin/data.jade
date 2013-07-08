@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    .span10
+        .page-title
+            .opts
+                h3=title
+        form.form-horizontal(action="/admin/data-backups",method="post",accept-charset="utf-8")
+            .control-group
+                label.control-label 数据备份
+                .controls
+                    button.btn(type="submit") 确定备份

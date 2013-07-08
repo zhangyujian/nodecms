@@ -103,6 +103,10 @@ app.get('/admin/user-destroy/:id',userRoutes.userDestroy);
 app.get( '/admin/user-edit/:id', userRoutes.userEdit);
 app.post( '/admin/user-update/:id', userRoutes.userUpdate);
 
+//数据 Routes
+app.get('/admin/data',adminRoutes.pageData);
+app.post('/admin/data-backups',adminRoutes.dataBackups);
+
 //config 渲染到模板
 app.locals({
   config:config

@@ -564,3 +564,22 @@ exports.pageDestroy = function ( req, res, next ){
     });
   });
 };
+
+exports.pageData = function (req, res, next){
+  if (!req.session.User) {
+    return res.redirect('/admin/login');
+  }
+  res.render('admin/data', { 
+    title: '数据管理',
+    User: req.session.User
+  });
+};
+
+exports.dataBackups = function (req, res, next){
+  var exec = require('child_process').exec;
+  exec("mongoexport -d nodecms -c users -o users.dat", function (error, stdout, stderr) {
+      content = stdout;
+      console.log(content);
+      res.redirect( '/admin/data' );
+  });
+};
