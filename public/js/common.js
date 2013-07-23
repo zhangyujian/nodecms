@@ -20,4 +20,29 @@ $(document).ready(function(){
     		$(this).addClass('active');
     	}
     });
+
+    function setcookie(){
+		//获取cookie的值
+		var username = $.cookie('username');
+		var password = $.cookie('password');
+		//将获取的值填充入输入框中
+		$('#username').val(username);
+		$('#password').val(password); 
+		if(username != null && username != '' && password != null && password != ''){//选中保存秘密的复选框
+			$("#remember-me").attr('checked',true);
+		}
+
+		$("#button").click(function() {
+			if ($("#remember-me").attr("checked") == "checked") {
+				var username = $("#username").val();
+				var password = $("#password").val();
+				$.cookie("username", username, { expires: 7 });
+				$.cookie("password", password, { expires: 7 });
+			}else{
+				$.cookie('username', '', { expires: -1 });
+				$.cookie('password', '', { expires: -1 }); 
+			}
+		});
+	}
+	setcookie();
 });
