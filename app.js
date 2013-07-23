@@ -4,6 +4,7 @@
  */
 
 var express     = require('express')
+  , routes = require('./routes')
   , adminRoutes = require('./routes/admin')
   , userRoutes  = require('./routes/user')
   , path        = require('path')
@@ -37,9 +38,12 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-app.post('/admin/upload', adminRoutes.upload);
 // Routes
+app.get('/', routes.index);
+
+// Admin Routes
 app.get('/admin', adminRoutes.index);
+app.post('/admin/upload', adminRoutes.upload);
 //产品 Routes
 app.get('/admin/product-list', adminRoutes.productList);
 app.get('/admin/product-add', adminRoutes.productAdd);
