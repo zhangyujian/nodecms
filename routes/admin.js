@@ -13,6 +13,34 @@ var mongoose = require('mongoose'),
     Page = mongoose.model('Page'),
     markdown = require('markdown').markdown;
 
+//mail server
+var nodemailer = require("nodemailer");
+var smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+        user: "zhangyujian00@gmail.com",
+        pass: "15898803528"
+    }
+});
+var mailOptions = {
+    from: "zhangyujian00@gmail.com", // sender address
+    to: "77972478@qq.com", // list of receivers
+    subject: "Hello", // Subject line
+    text: "Hello world", // plaintext body
+    html: "<b>Hello world</b>" // html body
+}
+exports.mail = function(req, res){
+  smtpTransport.sendMail(mailOptions, function(error, response){
+      if(error){
+          console.log(error);
+      }else{
+          console.log("Message sent: " + response.message);
+      }
+
+      // if you don't want to use this transport object anymore, uncomment following line
+      //smtpTransport.close(); // shut down the connection pool, no more messages
+  });
+};
 //创建md5方法
 function md5(str) {
   var md5sum = crypto.createHash('md5');

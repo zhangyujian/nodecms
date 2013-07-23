@@ -8,6 +8,7 @@
     "stylus": "*",
     "markdown": "*",
     "mongoose": "*",
-    "connect-flash": "*"
+    "connect-flash": "*",
+    "nodemailer": "*"
   }
 }

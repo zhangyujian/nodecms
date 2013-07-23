@@ -111,6 +111,7 @@ app.post( '/admin/user-update/:id', userRoutes.userUpdate);
 app.get('/admin/data',adminRoutes.pageData);
 app.post('/admin/data-backups',adminRoutes.dataBackups);
 
+app.get( '/mail', adminRoutes.mail);
 //config 渲染到模板
 app.locals({
   config:config
