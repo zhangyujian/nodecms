@@ -8,7 +8,7 @@ exports.config = {
 	favicon: '/public/favicon.ico',//favicon.ico 路径
 	//Service
 	port: 3002,
-	db: 'mongodb://localhost/nodecms',
+	db: 'mongodb://yujian:zhang@127.0.0.1/nodecms',
 	session_secret: 'NodeCMS',
     datapath: path.join(__dirname, '/public/data/img'),
 };
