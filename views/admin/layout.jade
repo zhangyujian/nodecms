@@ -22,12 +22,11 @@ html
                     'cancelImg':'/uploadify/uploadify-cancel.png',
                     'onUploadSuccess' : function(file, data, response) {
                         //  alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+                        var img="<img src=\""+data+"\"/>";
+                        $("#img_box").append(img);
                         var img_num = $(".file_img").val();
                         var data_img = data.split("\\");
-                        console.log(data_img[1]);
-                        var data_push = data_img[1];
-                        var img="<img src=\"/data/img/"+data_push+"\"/>";
-                        $("#img_box").append(img);
+                        var data_push = data_img[0] + data_img[1];
                         var img_arr = img_num.split(',');
                         $(".file_img").val(img_num+data_push+",");
                     }
