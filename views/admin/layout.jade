@@ -23,8 +23,8 @@ html
                     'onUploadSuccess' : function(file, data, response) {
                         //  alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
                         var img_num = $(".file_img").val();
-                        console.log(data);
                         var data_img = data.split("\\");
+                        console.log(data_img[1]);
                         var data_push = data_img[1];
                         var img="<img src=\"/data/img/"+data_push+"\"/>";
                         $("#img_box").append(img);
