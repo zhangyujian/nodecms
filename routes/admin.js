@@ -61,7 +61,7 @@ exports.upload = function (req, res) {
     imgname = fileDesc.Filedata.name,
     path = fileDesc.Filedata.path,
     name = path.replace(config.datapath, ''),
-    imgurl = 'http://localhost:3002/data/img/' + name;
+    imgurl = '/data/img/' + name;
   res.send(imgurl);
 };
 
