@@ -61,7 +61,7 @@ exports.upload = function (req, res) {
     imgname = fileDesc.Filedata.name,
     path = fileDesc.Filedata.path,
     name = path.replace(config.datapath, ''),
-    imgurl = '/data/img/' + name;
+    imgurl = 'http://www.nodecms.cn/data/img/' + name;
   res.send(imgurl);
 };
 
