@@ -25,8 +25,9 @@ html
                         var img="<img src=\""+data+"\"/>";
                         $("#img_box").append(img);
                         var img_num = $(".file_img").val();
+                        console.log(data);
                         var data_img = data.split("\\");
-                        var data_push = data_img[0] + data_img[1];
+                        var data_push = data_img[1];
                         var img_arr = img_num.split(',');
                         $(".file_img").val(img_num+data_push+",");
                     }
