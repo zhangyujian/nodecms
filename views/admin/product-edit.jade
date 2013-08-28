@@ -31,7 +31,7 @@ block content
                     div#img_box.img
                         - if ( Product.img.length )
                             - Product.img.forEach(function(item){
-                                img(src=item, style="width: 100px; height: 100px;")
+                                img(src="/data/img/"+item, style="width: 100px; height: 100px;")
                             - })
                     input#file_upload(type="file", name="file_upload")
             .control-group
