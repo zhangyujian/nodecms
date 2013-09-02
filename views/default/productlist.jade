@@ -1,0 +1,18 @@
+include common/header
+.adv.adv-product
+    .bd.product-list
+        img(src="/img/ad2.jpg")
+.bgimage
+    .w
+        ul.product-list
+            each item in ProductSchemas
+                li.J-small-img
+                    p.time #{item.date}
+                    h2
+                        a(href="productdetail/#{item.title}",target="_blank") #{item.title}
+                    div(style="margin-top: 100px")
+                        a(href="productdetail/#{item.title}",target="_blank")
+                            img(src="/data/img/#{item.img}")
+        include common/pagination
+    .clear
+include common/footer

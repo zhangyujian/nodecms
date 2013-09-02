@@ -1,0 +1,10 @@
+include common/header
+.bgimage
+    .w
+        .product-detail
+            h1
+                |#{productdetail.title}
+                span.time #{productdetail.date}
+            img(src="/data/img/#{productdetail.img}")
+    .clear
+include common/footer

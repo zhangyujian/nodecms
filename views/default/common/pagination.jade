@@ -1,0 +1,12 @@
+ul.pages
+    -if( isNaN(req.query.p) || req.query.p<=0 )
+        li
+            a.next(href="/productlist?p=1") 下一页
+    -else if( (count%3==0)?(req.query.p == parseInt(count/3) - 1):(req.query.p == parseInt(count/3)) )
+        li
+            a.pre(href="/productlist?p=#{req.query.p-1}") 上一页
+    -else
+        li
+            a.pre(href="/productlist?p=#{req.query.p-1}") 上一页
+        li
+            a.next(href="/productlist?p=#{+req.query.p+1}") 下一页
