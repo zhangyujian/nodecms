@@ -40,7 +40,11 @@ app.configure('production', function(){
 
 // Routes
 app.get('/', routes.index);
-
+app.get('/sitebuild', routes.sitebuild);
+app.get('/about', routes.about);
+//app.get('/productlist', routes.productlist);
+//app.get('/productdetail/:title', routes.productdetail);
+app.get('/solution', routes.solution);
 // Admin Routes
 app.get('/admin', adminRoutes.index);
 app.post('/admin/upload', adminRoutes.upload);

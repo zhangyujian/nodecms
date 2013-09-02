@@ -1,1 +1,77 @@
-extends layout
+include common/header 
+.header-content.home
+    #slider-wrap.parallax-bg
+        #slider.slider.parallax-bg
+            .slider-sections.sandbox
+                section.first
+                    img(src="/img/home-banner-1.png")
+                    .text
+                        h2 网站建设
+                        p.copy
+                            采用前后台完全分离技术，通过标签（支持标签循环嵌套、判断标签、自定义标签、文件循环嵌套等）加模板技术.全站生成纯静态页。
+                        p.button
+                            a(href="#",onclick="_gaq.push(['_trackPageview', '#']);") 查看
+                section
+                    img(src="/img/dataviz-home-image-q2.png")
+                    .text(style="padding-top: 10px;")
+                        h2 手机APP应用，移动互联方案
+                        p.copy
+                            单页面、单页面索引、新闻、产品展示、下载、友情链接、网上商城，在线支付、配送、支付方式管理、广告等模块。
+                        p.button
+                            a(href="#",onclick="_gaq.push(['_trackPageview', '#']);") 查看
+                section
+                    img(src="/img/home_banner_web-q2.png")
+                    .text
+                        h2 淘宝商城解决方案
+                        p.copy
+                            品牌发展方向定制，品牌互联网整体运营方案，淘宝商城专项解决方案，提供专业的品牌深度推广及运作方案
+                        p.button
+                            a(href="#",onclick="_gaq.push(['_trackPageview', '#']);") 查看
+        a.slider-prev(href="javascript: void(0)") ?
+        a.slider-next(href="javascript: void(0)") ?
+.w
+    .index-text
+        span 我们
+        | 乐于分享、秉承开放的理念服务我们的客户。
+    .index-about
+        .bd
+            .pic
+                a(href="#")
+                    img(src="/images/blog_icon.png")
+            .text
+                h2 我们的理念
+                p 秉承开放，完美的理念，反复不断的研究互联网人群，提供最流行，最完善的用户体验方案
+        .bd
+            .pic
+                a(href="#")
+                    img(src="/images/why_icon.png")
+            .text
+                h2 我们的故事
+                p
+                    a(style="color: #545454;",href="/about") 秉承开放，完美的理念，反复不断的研究互联网人群，提供最流行，最完善的用户体验方案
+        .bd
+            .pic
+                a(href="#")
+                    img(src="/images/work_icon.png")
+            .text
+                h2 我们的态度
+                p 专注，专业，唯一，实际
+    .index-text
+        span 我们
+        | 追求完美的设计、精湛的技术，提供最优质的用户体验。
+    .index-product
+        h2
+            a(href="/productlist") 我们都做了什么
+        .captionfull
+            h2
+                a(href="#",target="_blank") 这是一个作品
+            img(src="#",width="300px",height="200px")
+        .captionfull
+            h2
+                a(href="#",target="_blank") 这是一个作品
+            img(src="#",width="300px",height="200px")
+        .captionfull
+            h2
+                a(href="#",target="_blank") 这是一个作品
+            img(src="#",width="300px",height="200px")
+include common/footer 

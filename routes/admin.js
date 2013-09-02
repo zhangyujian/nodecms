@@ -61,7 +61,8 @@ exports.upload = function (req, res) {
     imgname = fileDesc.Filedata.name,
     path = fileDesc.Filedata.path,
     name = path.replace(config.datapath, ''),
-    imgurl = 'http://www.nodecms.cn/data/img' + name;
+    /*线上本地不同之处*/
+    imgurl = 'http://localhost:3002/data/img/' + name;
   res.send(imgurl);
 };
 
